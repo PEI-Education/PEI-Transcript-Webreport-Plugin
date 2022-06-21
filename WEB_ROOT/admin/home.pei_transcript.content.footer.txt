@@ -1,0 +1,62 @@
+<script>
+    $j(document).ready(function () {
+        if($j('#pei_reports').length == 0) {
+            studentFunctions.push(
+                {
+                    name: '~[text:psx.htmlc.admin_studentlist.functions.pei_reports.heading]',
+                    type: 'category'
+                }
+            );
+        }
+        if($j('#pei_transcript').length == 0 ) {
+            studentFunctions.push(
+                {
+                    name: '~[text:psx.htmlc.admin_studentlist.functions.pei_reports.transcript_link]',
+                    address: '/admin/pei_transcript/pei_transcript_prefs.html',
+                    htmlid: 'pei_transcript'                 
+                },
+                {
+                    name: 'PSB - K Report Card',
+                    address: '/admin/pei_report_cards/psb_k_report_card_prefs.html',
+                    htmlid: 'psb_k_report_card'
+                },                
+                {
+                    name: 'PSB - 1-6 Report Card',
+                    address: '/admin/pei_report_cards/psb_1-6_report_card_prefs.html',
+                    htmlid: 'psb_1-6_report_card'
+                },
+                {
+                    name: 'PSB - 7-9 Report Card',
+                    address: '/admin/pei_report_cards/psb_7-9_report_card_prefs.html',
+                    htmlid: 'psb_7-9_report_card'
+                },                
+                {
+                    name: 'PSB - High School Report Card',
+                    address: '/admin/pei_report_cards/psb_hs_report_card_prefs.html',
+                    htmlid: 'psb_hs_report_card'
+                },
+                {
+                    name: 'CSLF - Bulletin maternelle',
+                    address: '/admin/pei_report_cards/cslf_k_report_card_prefs.html',
+                    htmlid: 'cslf_k_report_card'
+                },
+                {
+                    name: 'CSLF - Bulletin Élémentaire',
+                    address: '/admin/pei_report_cards/cslf_elem_report_card_prefs.html',
+                    htmlid: 'cslf_elem_report_card'
+                },
+                {
+                    name: 'CSLF - Bulltin 7 à 9',
+                    address: '/admin/pei_report_cards/cslf_7-9_report_card_prefs.html',
+                    htmlid: 'cslf_7-9_report_card'
+                },               
+                {
+                    name: 'CSLF - Bulletin Secondaire',
+                    address: '/admin/pei_report_cards/cslf_hs_report_card_prefs.html',
+                    htmlid: 'cslf_hs_report_card'
+                }
+            );
+        }
+    });
+</script>
+

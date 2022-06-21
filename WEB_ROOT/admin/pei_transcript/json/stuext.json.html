@@ -1,0 +1,36 @@
+{
+    "studentsExtended": [
+        ~[tlist_sql;
+            select
+            	stuex.pei_adpcertificate,
+            	stuex.pei_frenchcertificate,
+            	stuex.pei_graduationdate,
+            	stuex.pei_hasgraduated,
+            	s.id,
+            	scf.pscore_legal_first_name,
+            	scf.pscore_legal_middle_name,
+            	scf.pscore_legal_last_name
+            from students s
+            join u_def_ext_students stuex on stuex.studentsdcid=s.dcid
+            join studentcorefields scf on scf.studentsdcid=s.dcid
+          where
+             ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
+            ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]
+            ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
+            ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
+        ]
+        {
+            "adp":"~(1)",
+            "french":"~(2)",
+            "gradDate":"~(3;d)",
+            "hasGraduated":"~(4)",
+            "sid":"~(5)",
+            "legalfirst":"~(6)",
+            "legalmiddle":"~(7)",
+            "legallast":"~(8)"
+
+        },
+        [/tlist_sql]
+        {}
+    ]
+}

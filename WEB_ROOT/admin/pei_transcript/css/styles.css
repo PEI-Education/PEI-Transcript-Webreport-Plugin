@@ -1,0 +1,239 @@
+@CHARSET "UTF-8";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  font-size: 10pt;
+  line-height: 1.3;
+}
+
+@media print {
+
+    .noprint {
+        display: none;
+    }
+
+    .pageBreak {
+        page-break-after: always;
+    }
+}
+
+.red {
+    font-size: 10pt;
+    color: red;
+}
+
+.page {
+  display: block;
+  height: 10in;
+  width: 7.5in;
+  position: relative;
+}
+
+
+.logo {
+  position: absolute;
+  right: 0;
+  width: 100px;
+}
+
+header {
+  width: 7.5in;
+}
+
+h1 {
+  font-size: 14pt;
+  font-weight: bold;
+  margin: 0.2in;
+  text-align: center;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 3.3in 4.2in;
+  grid-template-rows: auto;
+  width: 7.5in;
+  margin:  50px 5px 15px 5px;
+  vertical-align: top;
+}
+
+.school {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  border: none;
+}
+
+.student {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  border: none;
+}
+
+.transcript {
+    width: 7.5in;
+    border-collapse: collapse;
+}
+
+.transcript tr {
+    min-height: 14px;
+}
+
+.transcript th, .totalcredits td {
+    border: 2px solid black;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.credits td, .current td, .attempted td {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.footer {
+  position: absolute;
+  width: 7.5in;
+  bottom: 0;
+}
+
+.wide {
+  width: 7.5in;
+  font-size: 9pt;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+tbody tr.current:first-child {
+    border-top: 2px dashed black;
+}
+
+.certs {
+    width: 7.5in;
+    margin: 10px 5px;
+}
+
+.p2head {
+  padding-top: 20px;
+  font-weight: bold;
+  padding-bottom: 2px;
+}
+
+.p2body {
+  border-top: 2px solid black;
+  padding-top: 3px;
+  font-size: 9pt;
+}
+
+.credits-table {
+  border-collapse: collapse;
+  width: 7.5in;
+  margin-top: 10px;
+}
+
+.credits-table td {
+  vertical-align: top;
+  border: 2px solid black;
+  padding: 5px;
+  font-size: 8pt;
+}
+
+td.noRightBorder {
+  border-right: none;
+}
+
+td.noLeftBorder {
+  border-left: none;
+}
+
+.check {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+    padding: 1px;
+    text-align: center;
+    vertical-align: center;
+    font-weight: bold;
+}
+
+.signature {
+    width: 7.5in;
+    border-collapse: collapse;
+    border: none;
+}
+
+.sig-line {
+  border-bottom: 2px solid black;
+}
+
+.sig-name {
+  vertical-align: top;
+  text-align: center;
+  font-size: 9pt;
+}
+
+.footer2 {
+  font-size: 10pt;
+  margin: 0px 15px 10px 5px;
+  text-align: left;
+  display: block;
+  width: 7.5in;
+  padding-top: 10px;
+}
+
+.footer2-gap {
+  display: inline-block;
+  margin-right: 0.2in;
+}
+
+.footer3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 7.5in;
+  font-size: 10pt;
+  margin: 5px;
+}
+
+.footer1 {
+  display: grid;
+  grid-template-columns: 3fr 1fr 2fr;
+  width: 7.5in;
+  font-size: 10pt;
+  margin: 5px;
+  padding-bottom: 20px;
+}
+
+.footer1-left, .footer3-left {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  text-align: left;
+}
+
+.footer1-center, .footer3-center {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: left;
+}
+
+.footer1-right, .footer3-right {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  text-align: right;
+}

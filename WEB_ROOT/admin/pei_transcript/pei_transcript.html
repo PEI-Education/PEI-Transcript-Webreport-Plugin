@@ -1,0 +1,504 @@
+<!doctype html>
+<html>
+<head>
+  <title>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei_student_transcript]</title>
+  ~[wc:commonscripts]
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+  ~[x:insertfile;/admin/pei_report_cards/instruction_template/instuctions.html]
+  ~[x:GetDoThisForStudents]
+  ~[x:SortSelection;Students:~[displayprefschool:report_card_sort]]
+  ~[RepeatForEach:Students]
+  <div id="~(id)" class="page">
+    <img src="image/~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei].jpg" class="logo" />
+    <header>
+        <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prince_ed_is_student_transcript]</h1>
+    </header>
+    <div class="info">
+
+        <table class="school">
+            <colgroup>
+                <col style="width: 45%">
+                <col style="width: 55%">
+            </colgroup>
+
+        ~[tlist_sql;
+            select
+                sch.name,
+                sch.schooladdress,
+                sch.schoolcity,
+                sch.schoolstate,
+                sch.schoolzip,
+                sch.schoolphone,
+                schext.schoolurl
+            from schools sch
+            join students s on s.schoolid=sch.school_number
+            join U_DYN_SCHOOLS_1 schext on schext.schoolsdcid=sch.dcid
+            where s.id=~(id);
+        ]
+        <!--
+            ~(name) ~(schaddress) ~(schcity) ~(schstate) ~(schzip) ~(schphone) ~(schurl)
+        -->
+        <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.school_name]</strong></td>
+                <td>~(name)</td>
+            </tr>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.address]</strong></td>
+                <td>~(schaddress)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>~(schcity), ~(schstate) ~(schzip)</td>
+            </tr>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.telephone]</strong></td>
+                <td>~(schphone)</td>
+            </tr>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.website]</strong></td>
+                <td>~(schurl)</td>
+            </tr>
+        [/tlist_sql]
+        </table>
+        <table class="student">
+            <colgroup>
+                <col style="width: 40%">
+                <col style="width: 60%">
+            </colgroup>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.legal_name]</strong></td>
+                <td id="~(id)-legal"></td>
+            </tr>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.common_name]</strong></td>
+                <td>~(last_name), ~(first_name)</td>
+            </tr>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.birthdate]</strong></td>
+                <td>~(dob)</td>
+            </tr>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.student_number]</strong></td>
+                <td>~(student_number)</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td></td>
+            </tr>
+        </table>
+
+    </div>
+      <table id="transcript-~(id)" class="transcript">
+        <colgroup>
+          <col style="width: 20%;">
+          <col style="width: 13%;">
+          <col style="width: 13%;">
+          <col style="width: 40%;">
+          <col style="width: 7%;">
+          <col style="width: 7%;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_area]</th>
+              <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_date]</th>
+              <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.course_code]</th>
+              <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.course_name]</th>
+              <th class="center">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.mark]</th>
+              <th class="center">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit]</th>
+            </tr>
+        </thead>
+        <tbody id="~(id)-credits">
+
+        </tbody>
+        <tbody id="~(id)-attempted">
+
+        </tbody>
+        <tbody id="~(id)-current" class="current">
+        </tbody>
+        <tbody class="totalcredits">
+            <tr class="totalcredits">
+            <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.total_credits]</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td id="~(id)-totalcredits" class="center"> - </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div id="~(id)-certs" class="certs">
+
+      </div>
+
+    <div class="footer">
+      <div class="footer1">
+          <span class="footer1-left"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.has_completed_grad_reqs]</strong></span>
+          <span class="footer1-center"><div id="~(id)-grad-y" class="check">&nbsp;</div> ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.yes]
+ &nbsp;&nbsp;&nbsp; <div id="~(id)-grad-n" class="check">&nbsp;</div> ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.no]</span>
+          <span class="footer1-right"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grad_date] </strong><span id="~(id)-gradDate" class="grad-date">&nbsp;</span></span>
+      </div>
+      <div class="footer2">
+        <table class="signature">
+            <colgroup>
+                <col style="width: 10%;">
+                <col style="width: 45%;">
+                <col style="width: 25%;">
+                <col style="width: 20%;">
+            </colgroup>
+            <tr>
+                <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.signature]</strong></td>
+                <td class="sig-line"></td>
+                <td class="center"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.sigtitle] </strong><span id="sigrole">~(gpv.sigrole)</span></td>
+                <td class="right"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.date] </strong> ~(GPV.PRINTDATE)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="sig-name">~(GPV.SIGNAME)</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+      </div>
+      <div class="footer3">
+        <div class="footer3-left"><strong>Version 4.0</strong></div>
+        <div class="footer3-right"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]</strong></div>
+      </div>
+    </div>
+  </div>
+<!-- Page break -->
+  <div class="pageBreak" style="clear: both;">
+      <div class="noprint" style="border-top: thin dotted;width: 100%;"></div>
+  </div>
+
+<!-- Start of page 2 -->
+   <div class="page">
+
+     <img src="image/~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei].jpg" class="logo" />
+     <header>
+      <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prince_ed_is_student_transcript]</h1>
+  </header>
+  <table class="wide">
+      <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys]</td></tr>
+      <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys2]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys3]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys4]
+      </td></tr>
+      <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys]</td></tr>
+      <tr><td class="p2body">
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys2]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys3]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys4]
+      </td>
+      </tr>
+
+
+      <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_heading]</td></tr>
+      <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_body]</td></tr>
+
+      <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_heading]</td></tr>
+      <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_body]</td></tr>
+
+      <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes]</td></tr>
+      <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes2]</td></tr>
+  </table>
+  <table class="credits-table">
+    <tr>
+      <td>
+          <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc]</strong><br />
+          3 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
+      </td>
+      <td>
+          <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade]</strong><br />
+          1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
+      </td>
+      <td>
+          <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.category]</strong><br />
+          1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
+      </td>
+      <td>
+        <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_value]</strong><br />
+        1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
+      </td>
+      <td colspan="2">
+        <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ident]</strong><br />
+        1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
+    </tr>
+
+
+    <tr>
+      <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc1] <br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc2]</td>
+      <td>
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_4]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_5]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_6]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_7]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_8]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_9]
+      </td>
+      <td>
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_0]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_1]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_2]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_3]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_4]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_5]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_6]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_7]
+      </td>
+      <td>
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_0]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_1]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_2]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_3]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_4]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_5]<br />
+      </td>
+      <td class="noRightBorder">
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ae]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_fj]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_mr]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_s]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_t]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.progream_wz]
+      <td class="noLeftBorder">
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.eng_lang_course]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_imm_course]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_lang_course]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.advanced_placement]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.extern_creds]<br />
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.local_program_course]
+      </td>
+    </tr>
+  </table>
+  <div class="footer">
+      <div class="wide">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.priv_statement]</div>
+  </div>
+</div>
+  [between:Students]
+  <div class="pageBreak" style="clear: botd;">
+      <div class="noprint" style="border-top: thin dotted;width: 100%;"></div>
+  </div>
+  [/RepeatForEach:Students]
+
+  <script>
+      let data = [];
+      let currentCourses = [];
+      let gradFlags = [];
+
+      /* These functions take the transcript data and format it*/
+    function createRow(credit) {
+        let creditValue = parseFloat(credit.credits).toFixed(2);
+        let maxCredit = parseFloat(credit.maxCredits).toFixed(2);
+        let grade = credit.grade == '' ? credit.grade : isNaN(credit.grade) ? credit.grade : Math.round(parseFloat(credit.grade));
+        let creditType = '';
+        let crClass = '';
+        if (maxCredit == creditValue) {
+             crClass = 'credits';
+             switch (credit.creditType) {
+              case 'EN':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_EN]';
+                break;
+              case 'FR':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_FR]';
+                break;
+              case 'LA':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_LA]';
+                break;
+              case 'MA':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_MA]';
+                break;
+              case 'OP':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_OP]';
+                break;
+              case 'SC':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SC]';
+                break;
+              case 'SS':
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]';
+                break;
+              default:
+                creditType = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ZZ]';
+            }
+        } else {
+            creditType = "~[text:psx.htmlc.admin_pei_transcript.pei_transcript.attempted]";
+            crClass = 'attempted'
+        }
+        let html = '';
+        html += '<tr class="' + crClass + '">';
+        html += '<td class="left">' + creditType + '</td>';
+        html += '<td class="left">' + credit.lastday.substr(0,4) + '/' + credit.lastday.substr(5,2) + '</td>';
+        html += '<td class="left">' + credit.courseNumber + '</td>';
+        html += '<td class="left">' + credit.courseName + '</td>';
+        html += '<td class="center">' + grade + '</td>';
+        html += '<td class="center">' + creditValue + '</td>';
+        html += '</tr>';
+
+        if (crClass == "attempted") {
+            $j('#' + credit.sid + '-attempted').append(html);
+        } else {
+          $j('#' + credit.sid + '-credits').append(html);
+        }
+      }
+
+
+    function makeTranscript(data) {
+      for(let i = 0;i < data.length;i++) {
+          createRow(data[i]);
+      }
+    }
+    
+    // Creates a row and appends it to the transcript table
+    function createCCRow(course, status) {
+        let grade = course.grade == '' ? course.grade : isNaN(course.grade) ? course.grade : Math.round(parseFloat(course.grade));
+        let html = '';
+        html += '<tr class="current">';
+        html += '<td class="left">' + status + '</td>';
+        html += '<td class="left"></td>';
+        html += '<td class="left">' + course.courseNumber + '</td>';
+        html += '<td class="left">' + course.courseName + '</td>';
+        html += '<td class="center">' + grade + '</td>';
+        html += '<td class="center"> - </td>';
+        html += '</tr>';
+        $j('#' + course.sid + '-current').append(html);
+    }
+
+
+      // Determines whether or not a course should be listed as in progress, based on the date of printing, and passes only valid coruses to be formatted into html.
+      function validateCurrent(currentCourses) {
+          for(let i = 0; i < currentCourses.length; i++) {
+              const course = currentCourses[i];
+              const today = new Date("~[date]");
+              const startDate = new Date(course.dateEnrolled);
+              const dateLeft = new Date(course.dateLeft);
+            if (today >= startDate && today <= dateLeft) {
+                createCCRow(course, "~[text:psx.htmlc.admin_pei_transcript.pei_transcript.in_progress]");
+            } else if (today < startDate) {
+                createCCRow(course, "~[text:psx.htmlc.admin_pei_transcript.pei_transcript.next_semester]");
+            }
+          }
+      }
+
+      // Gets current courses fom CC for the selected students in the given school year
+      function getCC(dothisfor, school, term) {
+          $j.getJSON("json/cc.json.html?dothisfor=" + dothisfor + "&school=" + school + "&term=" + term, function (result) {
+              $j.each(result.currentCourses, function () {
+                  currentCourses.push(this);
+              });
+              currentCourses.pop();
+              validateCurrent(currentCourses);
+          });
+      }
+
+      function appendADP(flags) {
+        let adps = [
+          "No ADP - DO NOT PRINT. CLEAR ADP CERTIFICATE",
+          "Agriculture & Bioscience: Agriculture",
+          "Agriculture & Bioscience: Bioscience",
+          "Arts & Culture: Digital Arts",
+          "Arts & Culture: Culinary Arts",
+          "Arts & Culture: Music",
+          "Arts & Culture: Performing Arts",
+          "Arts & Culture: Stage & Technical",
+          "Arts & Culture: Visual Arts",
+          "Business & Innovation: Business Studies",
+          "Business & Innovation: Computer Studies",
+          "Business & Innovation: Design & Visual Arts",
+          "Business & Innovation: Hospitality & Tourism",
+          "Business & Innovation: Health & Wellness",
+          "Business & Innovation: Fisheries & Aquaculture",
+          "Travel & Tourism: Culinary",
+          "Travel & Tourism: Travel",
+          "Travel & Tourism: Hospitality",
+          "Travel & Tourism: Attractions",
+          "Health & Wellness: Food & Nutrition",
+          "Health & Wellness: Health Care",
+          "Health & Wellness: Lifestyle & Sustainability",
+          "Aviation & Aerospace",
+          "Marine Biology"
+        ];
+
+        let adpInt = parseInt(flags.adp);
+
+        $j('#' + flags.sid + '-certs').append('<div class="-adp"><strong>Academy Diploma Program:</strong> ' + adps[adpInt] + '</div>');
+      }
+
+      // Completes legal name,
+        function parseGradFlags(gradFlags) {
+        for (let i = 0; i < gradFlags.length; i++) {
+            let flags = gradFlags[i];
+            if (flags.adp > 0) {
+                appendADP(flags);
+            }
+            if (flags.french == 1) {
+                $j('#' + flags.sid + '-certs').append('<div class"fp"><strong>Certificate:</strong> French Immersion</div>');
+            }
+            if (flags.hasGraduated.charAt(0) == 'Y') {
+                $j('#' + flags.sid + '-grad-y').html('X');
+            } else {
+                $j('#' + flags.sid + '-grad-n').html('X');
+            }
+            if (flags.gradDate == '0/0/0') {
+                $j('#' + flags.sid + '-gradDate').append('---')
+            } else {
+                $j('#' + flags.sid + '-gradDate').append(flags.gradDate);
+            }
+            $j('#' + flags.sid + '-legal').append(flags.legallast + ', ' + flags.legalfirst + ' ' + flags.legalmiddle);
+        }
+      }
+
+      // Gets grad flags set in Students Extended
+      function getStuExt(dothisfor, school) {
+          $j.getJSON("json/stuext.json.html?dothisfor=" + dothisfor + "&school=" + school, function (result) {
+              $j.each(result.studentsExtended, function () {
+                  gradFlags.push(this);
+              });
+              gradFlags.pop();
+              parseGradFlags(gradFlags);
+          });
+      }
+
+
+      // Gets total credits for transcript table
+      function getTotalCredits(dothisfor, school) {
+          let studentCredits = [];
+          $j.getJSON("json/sgTotalCredits.json.html?dothisfor=" + dothisfor + "&school=" + school, function (result) {
+              $j.each(result.totalCredits, function () {
+                  studentCredits.push(this);
+              });
+              studentCredits.pop();
+              for (let i = 0; i < studentCredits.length; i++) {
+                  let student = studentCredits[i];
+                  $j('#' + student.sid + '-totalcredits').html(student.totalCredits + '.00');
+              }
+          });
+      }
+
+    function getTranscriptData(dothisfor, school) {
+          $j.getJSON("json/transcript.json.html?dothisfor=" + dothisfor + "&school=" + school, function (result) {
+              $j.each(result.credits, function () {
+                  data.push(this);
+              });
+              data.pop();
+              makeTranscript(data);
+          });
+      }
+      
+      $j(document).ready( function() {
+          let cc = "~(gpv.includeCurrent)";
+          if (cc == 'cc') {
+              getCC("~(gpv.DOTHISFOR)", "~(curschoolid)", "~(gpv.ccmarks)");
+          }
+          getTranscriptData("~(gpv.DOTHISFOR)", "~(curschoolid)");
+          getStuExt("~(gpv.DOTHISFOR)", "~(curschoolid)");
+          getTotalCredits("~(gpv.DOTHISFOR)", "~(curschoolid)");
+      });
+
+  </script>
+
+</body>
+
+</html>
