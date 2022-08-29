@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         description="Generates official PEI Student Transcripts - v1.1 Updates English Programs reqs."
         name="PEI Transcript"
-        version="1.1"
+        version="1.1.1"
         xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 <publisher name="Department of Education and Lifelong Learning - Luke Walker">
   <contact email="lawalker@edu.pe.ca"/>
