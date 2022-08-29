@@ -1,39 +1,39 @@
 {
-    "currentCourses": [
-        ~[tlist_sql;
-          select
-        	s.id,
-        	cc.termid,
-        	cc.course_number,
-        	cc.dateenrolled,
-        	cc.dateleft,
-        	courses.course_name,
-        	CASE
-            	WHEN sg.storecode = '~(gpv.term)' THEN sg.grade
-            	ELSE '-'
-            END AS currentMark
-          from students s
-          join cc on cc.studentid=s.id
-          join courses on courses.course_number=cc.course_number
-          join storedgrades sg on sg.studentid=s.id and sg.sectionid=cc.sectionid
-          where
-             ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
-            ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]
-            ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
-            ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
-            and substr(cc.termid,0,2) = '~(curyearid)'
-          order by s.id, cc.termid
-        ]
-        {
-            "sid":"~(1)",
-            "termid":"~(2)",
-            "courseNumber":"~(3)",
-            "dateEnrolled":"~(4;d)",
-            "dateLeft":"~(5;d)",
-            "courseName":"~(6;json)",
-            "grade":"~(7)"
-        },
-        [/tlist_sql]
-        {}
-    ]
+  "currentCourses": [
+      ~[tlist_sql;
+        select
+        s.id,
+        cc.termid,
+        cc.course_number,
+        cc.dateenrolled,
+        cc.dateleft,
+        courses.course_name,
+        CASE
+            WHEN sg.storecode = '~(gpv.term)' THEN sg.grade
+            ELSE '-'
+          END AS currentMark
+        from students s
+        join cc on cc.studentid=s.id
+        join courses on courses.course_number=cc.course_number
+        join storedgrades sg on sg.studentid=s.id and sg.sectionid=cc.sectionid
+        where
+           ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
+          ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]
+          ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
+          ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
+          and substr(cc.termid,0,2) = '~(curyearid)'
+        order by s.id, cc.termid
+      ]
+      {
+          "sid":"~(1)",
+          "termid":"~(2)",
+          "courseNumber":"~(3)",
+          "dateEnrolled":"~(4;d)",
+          "dateLeft":"~(5;d)",
+          "courseName":"~(6;json)",
+          "grade":"~(7)"
+      },
+      [/tlist_sql]
+      {}
+  ]
 }

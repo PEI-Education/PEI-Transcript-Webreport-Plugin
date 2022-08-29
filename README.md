@@ -5,5 +5,6 @@ Adds a web report to PowerSchool SIS that allows admin users to print an officia
 Make a selection of students and select *PEI Student Transcript* (under *PEI Reports*) in the Group Functions menu or on the Group Functions page.
 
 ## Release History
+* v1.1 - Updated English Programs reqs
 * v1.0.1 - Respolved issue with title (role) for signature only printing on firstd page of a batch
 * v1.0 - Initial release
