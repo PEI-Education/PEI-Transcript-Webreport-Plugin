@@ -493,14 +493,8 @@
     }
 
     // Gets current courses fom CC for the selected students in the given school year
-    function getCC(dothisfor, school, term) {
-      $j.getJSON(
-        "json/cc.json.html?dothisfor=" +
-        dothisfor +
-        "&school=" +
-        school +
-        "&term=" +
-        term,
+    function getCC(dothisfor, school, term, getMarks) {
+      $j.getJSON("json/cc.json.html?dothisfor=" + dothisfor + "&school=" + school + "&term=" + term,
         function (result) {
           $j.each(result.currentCourses, function () {
             currentCourses.push(this);
@@ -631,6 +625,7 @@
 
     $j(document).ready(function () {
       let cc = "~(gpv.includeCurrent)";
+      console.log("cc: " + cc)
       if (cc == "cc") {
         getCC("~(gpv.DOTHISFOR)", "~(curschoolid)", "~(gpv.ccmarks)");
       }

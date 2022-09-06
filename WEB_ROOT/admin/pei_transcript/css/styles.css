@@ -27,6 +27,7 @@
 
 .page {
   display: block;
+  margin: 0.5in;
   height: 10in;
   width: 7.5in;
   position: relative;
