@@ -15,13 +15,15 @@
           from students s
         join cc on cc.studentid=s.id
         join courses on courses.course_number=cc.course_number
-        left join storedgrades sg on sg.studentid=s.id and sg.sectionid=cc.sectionid
+        left join storedgrades sg on sg.studentid=s.id and sg.sectionid=cc.sectionid and sg.storecode = '~(gpv.term)'
         where
           ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
           ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]
           ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
           ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
           and substr(cc.termid,0,2) = '~(curyearid)'
+          and nvl(courses.sched_do_not_print,0) = 0
+          and nvl(sg.excludefromtranscripts,0) = 0
         order by s.id, cc.termid
       ]
       {

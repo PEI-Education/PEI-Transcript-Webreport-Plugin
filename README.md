@@ -5,6 +5,7 @@ Adds a web report to PowerSchool SIS that allows admin users to print an officia
 Make a selection of students and select *PEI Student Transcript* (under *PEI Reports*) in the Group Functions menu or on the Group Functions page.
 
 ## Release History
+* v1.3 - Added Essential Skills Achievement Pathway indicator to transcript legend
 * v1.2 - Fixed issue with current courses
 * v1.1 - Made URL link a link
 * v1.1 - Updated English Programs reqs
