@@ -2,27 +2,27 @@
   "totalCredits": [
    ~[tlist_sql;
   select
-      s.id,
+    s.id,
     sum(sg.earnedcrhrs)
-    from students s
-    join storedgrades sg
-      on sg.studentid = s.id
-    join terms t
-         on t.id = sg.termid
-         and t.schoolid = s.schoolid
-    where
-  ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
-  ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]
-  ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
-  ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
+  from students s
+  join storedgrades sg
+    on sg.studentid = s.id
+  join terms t
+    on t.id = sg.termid
+    and t.schoolid = s.schoolid
+  where
+    ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
+    ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]
+    ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
+    ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
     and sg.storecode = 'F1'
-    group by s.id
+  group by s.id
   ]
-     {
-          "sid":"~(1)",
-          "totalCredits":"~(2)"
-      },
-      [/tlist_sql]
-      {}
+    {
+      "sid":"~(1)",
+      "totalCredits":"~(2)"
+    },
+    [/tlist_sql]
+    {}
   ]
 }

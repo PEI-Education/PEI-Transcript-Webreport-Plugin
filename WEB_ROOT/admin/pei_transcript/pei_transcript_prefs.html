@@ -1,198 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>
-      ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.pei_student_transcript_preferences]
-    </title>
-    <link href="/images/css/screen.css" rel="stylesheet" media="screen" />
-    <link href="/images/css/print.css" rel="stylesheet" media="print" />
+<head>
+  <title>~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.pei_student_transcript_preferences]</title>
+  ~[wc:commonscripts]
+  <link href="/images/css/screen.css" rel="stylesheet" media="screen">
+  <link href="/images/css/print.css" rel="stylesheet" media="print">
+</head>
 
-    ~[wc:commonscripts]
-  </head>
+<body>
 
-  <body>
-    <form
-      target="_blank"
-      action="pei_transcript.html"
-      method="POST"
-      class="noSubmitLoading"
-    >
-      ~[wc:admin_header_css]
-      <!-- breadcrumb start -->
-      <a href="/admin/home.html" target="_top">
-        ~[text:psx.html.admin_reports.studschedmatrixprefs.start_page]
-      </a>
-      &gt;
-      <a href="/admin/functions.html" target="_top">
-        ~[text:psx.html.admin_reports.studschedmatrixprefs.special_functions]
-      </a>
-      &gt;
-      <a href="/admin/studentlist/functions.html">
-        ~[text:psx.html.admin_reports.studschedmatrixprefs.group_functions]
-      </a>
-      &gt;
-      ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.pei_student_transcript_preferences]
-      <!-- breadcrumb end -->
-      ~[wc:admin_navigation_css]
+  <form target="_blank" action="pei_transcript.html" method="POST" class="noSubmitLoading">
+    ~[wc:admin_header_css]
+    <!-- breadcrumb start -->
+    <a href="/admin/home.html" target="_top">
+      ~[text:psx.html.admin_reports.studschedmatrixprefs.start_page]
+    </a> &gt;
+    <a href="/admin/functions.html" target="_top">
+      ~[text:psx.html.admin_reports.studschedmatrixprefs.special_functions]
+    </a> &gt;
+    <a href="/admin/studentlist/functions.html">
+      ~[text:psx.html.admin_reports.studschedmatrixprefs.group_functions]
+    </a> &gt;
+    ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.pei_student_transcript_preferences]
+    <!-- breadcrumb end -->
+    ~[wc:admin_navigation_css]
 
-      <h1>
-        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.transcript_preferences]
-      </h1>
-      <!-- start of content and bounding box -->
-      <div class="box-round">
-        <table class="linkDescList">
-          <thead>
-            <tr>
-              <th>
-                ~[text:psx.html.admin_reports.studschedmatrixprefs.option]
-              </th>
-              <th>~[text:psx.html.admin_reports.studschedmatrixprefs.value]</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                ~[text:psx.html.admin_reports.studschedmatrixprefs.students_to_scan]
-              </td>
-              <td>~[x:dothisfor;selected;enrolled]</td>
-            </tr>
-            <tr>
-              <td>
-                ~[text:psx.html.admin_reports.studschedmatrixprefs.sort_order]
-              </td>
-              <td>
-                <input
-                  type="radio"
-                  id="sortname"
-                  name="[prefschool]report_card_sort"
-                  value="lastfirst,grade_level"
-                />
-                <label for="sortname"
-                  >~[text:psx.html.admin_reports.studschedmatrixprefs.last_name]</label
-                ><br />
-                <input
-                  type="radio"
-                  id="sortgrade"
-                  name="[prefschool]report_card_sort"
-                  value="grade_level,lastfirst"
-                />
-                <label for="sortgrade"
-                  >~[text:psx.html.admin_reports.studschedmatrixprefs.grade_level]</label
-                ><br />
-                <input
-                  type="radio"
-                  id="sorthomeroom"
-                  name="[prefschool]report_card_sort"
+    <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.transcript_preferences]</h1>
+    <!-- start of content and bounding box -->
+    <div class="box-round">
+
+      <table class="linkDescList">
+        <thead>
+          <tr>
+            <th>~[text:psx.html.admin_reports.studschedmatrixprefs.option]</th>
+            <th>~[text:psx.html.admin_reports.studschedmatrixprefs.value]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>~[text:psx.html.admin_reports.studschedmatrixprefs.students_to_scan]</td>
+            <td>~[x:dothisfor;selected;enrolled]</td>
+          </tr>
+          <tr>
+            <td>~[text:psx.html.admin_reports.studschedmatrixprefs.sort_order]</td>
+            <td>
+              <input type="radio" id="sortname" name="[prefschool]report_card_sort"
+                  value="lastfirst,grade_level">
+              <label for="sortname">~[text:psx.html.admin_reports.studschedmatrixprefs.last_name]</label><br>
+              <input type="radio" id="sortgrade" name="[prefschool]report_card_sort"
+                  value="grade_level,lastfirst">
+              <label for="sortgrade">~[text:psx.html.admin_reports.studschedmatrixprefs.grade_level]</label><br>
+              <input type="radio" id="sorthomeroom" name="[prefschool]report_card_sort"
                   value="home_room,lastfirst"
-                  checked
-                />
-                <label for="sorthomeroom"
-                  >~[text:psx.html.admin_reports.studschedmatrixprefs.homeroom]</label
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.current_courses]
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  id="includeCurrent"
-                  name="includeCurrent"
-                  value="cc"
-                />
-                <label for="includeCurrent"
-                  >~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.include_inprogress_courses]</label
-                >
-              </td>
-            </tr>
-            <tr>
+                  checked>
+              <label for="sorthomeroom">~[text:psx.html.admin_reports.studschedmatrixprefs.homeroom]</label>
+            </td>
+          </tr>
+          <tr>
+            <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.current_courses]</td>
+            <td>
+              <input type="checkbox" id="includeCurrent" name="includeCurrent" value="cc">
+              <label for="includeCurrent">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.include_inprogress_courses]</label>
+            </td>
+          </tr>
+          <tr>
               <td>Current course marks</td>
               <td>
-                <select name="ccmarks" id="ccmarks">
-                  <option value="none">None</option>
-                  <option value="Q1">Q1</option>
-                  <option value="Q2">Q2</option>
-                  <option value="Q3">Q3</option>
-                </select>
+                  <select name="ccmarks" id="ccmarks">
+                      <option value="none">None</option>
+                      <option value="Q1">Q1</option>
+                      <option value="Q2">Q2</option>
+                      <option value="Q3">Q3</option>
+                  </select>
               </td>
-            </tr>
-            <tr>
-              <td>
-                ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_name]
-              </td>
-              <td>
-                <input type="text" id="signame" name="signame" value="" />
-                <label for="signame"
-                  >~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.name_beneath_signature_line]</label
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role]
-              </td>
-              <td>
-                <select name="sigrole" id="sigrole">
-                  <option
-                    value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.p]"
-                  >
-                    ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.p]
-                  </option>
-                  <option
-                    value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.vp]"
-                  >
-                    ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.vp]
-                  </option>
-                  <option
-                    value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.aa]"
-                  >
-                    ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.aa]
-                  </option>
-                  <option
-                    value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.sc]"
-                  >
-                    ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.sc]
-                  </option>
-                  <option
-                    value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.pd]"
-                  >
-                    ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.pd]
-                  </option>
-                </select>
-                <label for="sigrole"
-                  >~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.note]</label
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>
-                ~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.print_date]
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="psDateWidget"
-                  id="printdate"
-                  name="printdate"
-                  value="~[short.date]"
-                />
-                <label for="printdate"
-                  >~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.print_date_note]</label
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="button-row">
-          <input type="hidden" name="ac" value="prim" />~[submitbutton]
-        </div>
+          </tr>
+          <tr>
+            <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_name]</td>
+            <td>
+              <input type="text" id="signame" name="signame" value="">
+              <label for="signame">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.name_beneath_signature_line]</label>
+            </td>
+          </tr>
+           <tr>
+            <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role]</td>
+            <td>
+              <select name="sigrole" id="sigrole">
+                <option value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.p]">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.p]</option>
+                <option value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.vp]">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.vp]</option>
+                <option value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.aa]">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.aa]</option>
+                <option value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.sc]">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.sc]</option>
+                <option value="~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.pd]">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.pd]</option>
+              </select>
+              <label for="sigrole">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.signature_role.note]</label>
+            </td>
+          </tr>
+          <tr>
+            <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.print_date]</td>
+            <td>
+              <input type="text" class="psDateWidget" id="printdate" name="printdate"  value="~[short.date]">
+              <label for="printdate">~[text:psx.htmlc.admin_pei_transcript.pei_transcript_prefs.print_date_note]</label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="button-row">
+        <input type="hidden" name="ac" value="prim">~[submitbutton]
       </div>
-      <br />
-      <!-- end of content of bounding box -->
+    </div>
+    <br>
+    <!-- end of content of bounding box -->
 
-      ~[wc:admin_footer_css]
-    </form>
-  </body>
+    ~[wc:admin_footer_css]
+  </form>
+</body>
 </html>

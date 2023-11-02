@@ -22,6 +22,8 @@
           ~[if.~(gpv.dothisfor;num)>0] s.id = ~(gpv.dothisfor)[/if]
           ~[if.is.a.school] and s.schoolid = ~(gpv.school) [/if.is.a.school]
           and substr(cc.termid,0,2) = '~(curyearid)'
+          and nvl(courses.sched_do_not_print,0) = 0
+          and nvl(sg.excludefromtranscripts,0) = 0
         order by s.id, cc.termid
       ]
       {

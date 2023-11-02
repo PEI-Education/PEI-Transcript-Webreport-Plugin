@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@CHARSET "UTF-8";
 
 * {
   box-sizing: border-box;
@@ -27,9 +27,9 @@
 
 .page {
   display: block;
-  margin: 0.5in;
-  height: 10in;
-  width: 7.5in;
+  height: 10.5in;
+  width: 8in;
+  margin: 0.25in;
   position: relative;
 }
 
@@ -41,7 +41,7 @@
 }
 
 header {
-  width: 7.5in;
+  width: 8in;
 }
 
 h1 {
@@ -53,10 +53,10 @@ h1 {
 
 .info {
   display: grid;
-  grid-template-columns: 3.3in 4.2in;
+  grid-template-columns: 3.7in 4.3in;
   grid-template-rows: auto;
-  width: 7.5in;
-  margin:  50px 5px 15px 5px;
+  width: 8in;
+  margin: 50px 5px 15px 5px;
   vertical-align: top;
 }
 
@@ -77,7 +77,7 @@ h1 {
 }
 
 .transcript {
-    width: 7.5in;
+    width: 8in;
     border-collapse: collapse;
 }
 
@@ -100,12 +100,12 @@ h1 {
 
 .footer {
   position: absolute;
-  width: 7.5in;
+  width: 8in;
   bottom: 0;
 }
 
 .wide {
-  width: 7.5in;
+  width: 8in;
   font-size: 9pt;
 }
 
@@ -126,8 +126,8 @@ tbody tr.current:first-child {
 }
 
 .certs {
-    width: 7.5in;
-    margin: 10px 5px;
+  width: 8in;
+  margin: 10px 5px;
 }
 
 .p2head {
@@ -144,7 +144,7 @@ tbody tr.current:first-child {
 
 .credits-table {
   border-collapse: collapse;
-  width: 7.5in;
+  width: 8in;
   margin-top: 10px;
 }
 
@@ -164,20 +164,20 @@ td.noLeftBorder {
 }
 
 .check {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid black;
-    padding: 1px;
-    text-align: center;
-    vertical-align: center;
-    font-weight: bold;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+  padding: 1px;
+  text-align: center;
+  vertical-align: center;
+  font-weight: bold;
 }
 
 .signature {
-    width: 7.5in;
-    border-collapse: collapse;
-    border: none;
+  width: 8in;
+  border-collapse: collapse;
+  border: none;
 }
 
 .sig-line {
@@ -195,7 +195,7 @@ td.noLeftBorder {
   margin: 0px 15px 10px 5px;
   text-align: left;
   display: block;
-  width: 7.5in;
+  width: 8in;
   padding-top: 10px;
 }
 
@@ -207,7 +207,7 @@ td.noLeftBorder {
 .footer3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  width: 7.5in;
+  width: 8in;
   font-size: 10pt;
   margin: 5px;
 }
@@ -215,7 +215,7 @@ td.noLeftBorder {
 .footer1 {
   display: grid;
   grid-template-columns: 3fr 1fr 2fr;
-  width: 7.5in;
+  width: 8in;
   font-size: 10pt;
   margin: 5px;
   padding-bottom: 20px;
@@ -227,11 +227,18 @@ td.noLeftBorder {
   text-align: left;
 }
 
-.footer1-center, .footer3-center {
+.footer1-center {
   grid-column-start: 2;
   grid-column-end: 3;
   text-align: left;
 }
+
+.footer3-center {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: center;
+}
+
 
 .footer1-right, .footer3-right {
   grid-column-start: 3;
