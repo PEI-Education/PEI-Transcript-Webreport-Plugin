@@ -15,7 +15,7 @@
           from students s
         join cc on cc.studentid=s.id
         join courses on courses.course_number=cc.course_number
-        left join storedgrades sg on sg.studentid=s.id and sg.sectionid=cc.sectionid
+        left join storedgrades sg on sg.studentid=s.id and sg.sectionid=cc.sectionid and sg.storecode = '~(gpv.term)'
         where
           ~[if.~(gpv.dothisfor)=selected] s.dcid in (select dcid from ~[temp.table.current.selection:students])[/if]
           ~[if.~(gpv.dothisfor)=enrolled] s.Enroll_Status = 0[/if]

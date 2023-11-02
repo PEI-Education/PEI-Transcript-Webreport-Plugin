@@ -11,10 +11,11 @@
 
 <script>
   $j(document).ready(function() {
-    if ($j('#pei_rpts_table').length {
+    if ($j('#pei_rpts_table').length) {
       $j('#pei_rpts_table').append('#pei_transcript');
-    }
+    } else {
       $j('#pei_reports').insertBefore('h2:contains("~[text:psx.html.admin_studentlist.functions.printing]")');
       $j('#pei_reports').after($j('#pei_rpts_table'));
+    }
   });
   </script>

@@ -3,7 +3,11 @@
 <head>
   <title>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei_student_transcript]</title>
   ~[wc:commonscripts]
+<<<<<<< HEAD
   <link rel="stylesheet" type="text/css" href="css/styles.1.css">
+=======
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+>>>>>>> fd0ab6a6e0bf51cee18505dc29d0bdf756d8af3a
 </head>
 <body>
   ~[x:insertfile;/admin/pei_report_cards/instruction_template/instuctions.html]
@@ -165,7 +169,11 @@
       <div class="footer3">
         <div class="footer3-left"><strong>Version 4.0</strong></div>
         <div class="footer3-center">~(lastFirst) (~(student_number))</div>
+<<<<<<< HEAD
         <div class="footer3-right"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]</strong></div>
+=======
+        <div class="footer3-right">~[if#hr.~(gpv.printHR)=hr]Homeroom: ~(home_room)[else#hr]<strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]</strong>[/if#hr]</div>
+>>>>>>> fd0ab6a6e0bf51cee18505dc29d0bdf756d8af3a
       </div>
     </div>
   </div>
@@ -261,6 +269,10 @@
       <td class="noRightBorder">
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ae]<br />
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_fj]<br />
+<<<<<<< HEAD
+=======
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_i]<br />
+>>>>>>> fd0ab6a6e0bf51cee18505dc29d0bdf756d8af3a
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_mr]<br />
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_s]<br />
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_t]<br />
@@ -268,6 +280,10 @@
       <td class="noLeftBorder">
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.eng_lang_course]<br />
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_imm_course]<br />
+<<<<<<< HEAD
+=======
+        ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ESAP]<br />
+>>>>>>> fd0ab6a6e0bf51cee18505dc29d0bdf756d8af3a
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_lang_course]<br />
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.advanced_placement]<br />
         ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.extern_creds]<br />
@@ -396,6 +412,10 @@
                   currentCourses.push(this);
               });
               currentCourses.pop();
+<<<<<<< HEAD
+=======
+              console.log(currentCourses);
+>>>>>>> fd0ab6a6e0bf51cee18505dc29d0bdf756d8af3a
               validateCurrent(currentCourses);
           });
       }
@@ -493,7 +513,10 @@
               makeTranscript(data);
           });
       }
+<<<<<<< HEAD
       
+=======
+>>>>>>> fd0ab6a6e0bf51cee18505dc29d0bdf756d8af3a
       $j(document).ready( function() {
           let cc = "~(gpv.includeCurrent)";
           if (cc == 'cc') {
