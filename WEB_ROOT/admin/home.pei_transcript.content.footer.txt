@@ -36,6 +36,11 @@
                     htmlid: 'psb_hs_report_card'
                 },
                 {
+                    name: 'Summer School Report Card',
+                    address: '/admin/pei_reportcards_v2/summerschool_rc_prefs.html',
+                    htmlid: 'summerschool_report_card'
+                },               
+                {
                     name: 'CSLF - Bulletin maternelle',
                     address: '/admin/pei_report_cards/cslf_k_report_card_prefs.html',
                     htmlid: 'cslf_k_report_card'
@@ -54,6 +59,11 @@
                     name: 'CSLF - Bulletin Secondaire',
                     address: '/admin/pei_reportcards_v2/cslf_hs_rc_prefs.html',
                     htmlid: 'cslf_hs_report_card'
+                },
+                {
+                    name: "~[text:psx.htmlc.admin_pei_reports.student_info.report_title]",
+                    address: '/admin/pei_reports/student_info_prefs.html',
+                    htmlid: 'student_info_report'
                 }
             );
         }
