@@ -40,6 +40,12 @@
   width: 100px;
 }
 
+.logo2 {
+  position: absolute;
+  right: 0;
+  width: 0.75in;
+}
+
 header {
   width: 8in;
 }
@@ -238,7 +244,6 @@ td.noLeftBorder {
   grid-column-end: 3;
   text-align: center;
 }
-
 
 .footer1-right, .footer3-right {
   grid-column-start: 3;

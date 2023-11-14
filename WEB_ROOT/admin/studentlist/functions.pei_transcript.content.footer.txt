@@ -1,5 +1,5 @@
-<h2 id="pei_reports">~[text:psx.htmlc.admin_studentlist.functions.pei_reports.heading]</h2>
-<table id="pei_rpts_table" class="linkDescList">
+<h2 id="pei_transcript">~[text:psx.htmlc.admin_studentlist.functions.pei_reports.transcript_link]</h2>
+<table id="pei_transcript_table" class="linkDescList">
     <colgroup>
         <col><col>
         <tr id='pei_transcript'>
@@ -11,11 +11,7 @@
 
 <script>
   $j(document).ready(function() {
-    if ($j('#pei_rpts_table').length) {
-      $j('#pei_rpts_table').append('#pei_transcript');
-    } else {
-      $j('#pei_reports').insertBefore('h2:contains("~[text:psx.html.admin_studentlist.functions.printing]")');
-      $j('#pei_reports').after($j('#pei_rpts_table'));
-    }
+      $j('#pei_transcript').insertBefore('h2:contains("~[text:psx.html.admin_studentlist.functions.printing]")');
+      $j('#pei_transcript').after($j('#pei_transcript_table'));
   });
-  </script>
+</script>
