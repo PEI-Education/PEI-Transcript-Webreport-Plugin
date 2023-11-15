@@ -153,7 +153,7 @@
            join courses 
                on courses.course_number=cc.course_number
            left join storedgrades sg 
-               on sg.studentid=s.id and sg.sectionid=cc.sectionid and sg.storecode = '~(gpv.term)'
+               on sg.studentid=s.id and sg.sectionid=cc.sectionid
            where
              s.id = ~(curstudid)
              and substr(cc.termid,0,2) = '~(curyearid)'
