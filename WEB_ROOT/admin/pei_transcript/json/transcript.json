@@ -68,7 +68,7 @@
       "dob": "~(dob;d)",
       "studentNumber": "~(studentNumber)",
       "esap": ~(esap;l),
-      "adp": ~(adp;json),
+      "adp": "~(adp;json)",
       "frenchcertificate": ~(frenchcertificate),
       "gradDate": "~(gradDate;d)",
       "gradY": ~(gradY;l),

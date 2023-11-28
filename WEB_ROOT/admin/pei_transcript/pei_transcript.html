@@ -32,62 +32,61 @@
       <div id="~(id)" class="page">
         <img src="image/~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei].png" class="logo2" />
         <header>
-            <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prince_ed_is_student_transcript]</h1>
+          <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prince_ed_is_student_transcript]</h1>
         </header>
         <div class="info">
-            <table class="school">
-                <colgroup>
-                    <col style="width: 40%">
-                    <col style="width: 60%">
-                </colgroup>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.school_name]</strong></td>
-                    <td>{{ school.name }}</td>
-                </tr>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.address]</strong></td>
-                    <td>{{school.address }}</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>{{ school.city }}, {{ school.state }} {{ school.zip }}</td>
-                </tr>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.telephone]</strong></td>
-                    <td>{{ school.phone }}</td>
-                </tr>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.website]</strong></td>
-                    <td>{{ school.url }}</td>
-                </tr>
-            </table>
-            <table class="student">
-                <colgroup>
-                    <col style="width: 40%">
-                    <col style="width: 60%">
-                </colgroup>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.legal_name]</strong></td>
-                    <td>{{ legalLastName }}, {{ legalFirstName }} {{ legalMiddleName }}</td>
-                </tr>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.common_name]</strong></td>
-                    <td>{{ lastName }}, {{ firstName }}</td>
-                </tr>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.birthdate]</strong></td>
-                    <td>{{ dob }}</td>
-                </tr>
-                <tr>
-                    <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.student_number]</strong></td>
-                    <td>{{ studentNumber }}</td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
+          <table class="school">
+              <colgroup>
+                  <col style="width: 40%">
+                  <col style="width: 60%">
+              </colgroup>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.school_name]</strong></td>
+                  <td>{{ school.name }}</td>
+              </tr>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.address]</strong></td>
+                  <td>{{school.address }}</td>
+              </tr>
+              <tr>
                   <td></td>
-                </tr>
-            </table>
-    
+                  <td>{{ school.city }}, {{ school.state }} {{ school.zip }}</td>
+              </tr>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_tran   script.pei_transcript.telephone]</strong></td>
+                  <td>{{ school.phone }}</td>
+              </tr>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.website]</strong></td>
+                  <td>{{ school.url }}</td>
+              </tr>
+          </table>
+          <table class="student">
+              <colgroup>
+                  <col style="width: 40%">
+                  <col style="width: 60%">
+              </colgroup>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.legal_name]</strong></td>
+                  <td>{{ legalLastName }}, {{ legalFirstName }} {{ legalMiddleName }}</td>
+              </tr>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.common_name]</strong></td>
+                  <td>{{ lastName }}, {{ firstName }}</td>
+              </tr>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.birthdate]</strong></td>
+                  <td>{{ dob }}</td>
+              </tr>
+              <tr>
+                  <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.student_number]</strong></td>
+                  <td>{{ studentNumber }}</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td></td>
+              </tr>
+          </table>
         </div>
         <table class="transcript">
             <colgroup>
@@ -186,10 +185,10 @@
                 <div class="esap">Essential Skills Achievement Pathway program participant. See reverse for more information.</div>
             {{/if }}
             {{#if adp }}
-                <div class="-adp"><strong>Academy Diploma Program:</strong> {{ adpCertificate }}</div>
+                <div class="adp"><strong>Academy Diploma Program:</strong> {{ adpCertificate }}</div>
             {{/if }}
             {{#if frenchcertificate }}
-                <div class"fp"><strong>Certificate:</strong> French Immersion</div>
+                <div class="fp"><strong>Certificate:</strong> French Immersion</div>
             {{/if }}
         </div>
     
@@ -258,7 +257,15 @@
     
           <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_heading]</td></tr>
           <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_body]</td></tr>
-    
+          
+          {{#if esap }}
+            <tr>
+              <td class="p2head">Graduation Requirements - Essential Skills Achievement Pathway</td>
+              <td class="p2body">Post-Secondary Education pathway (ESAP-PSE) students are required to attain a mastery level in the Foundational Learning Block; attain a mastery level in one of the designated Post-Secondary Education Achievement Pathway Blocks; and demonstrate a minimum level-two complexity Capstone Project.<br /><br />
+              Workplace Entry pathway (ESAP-WE) students are required to attain a mastery level in the Foundational Learning Block; achieve a mastery level in Workplace Readiness Block; and meet the requirements of an experiential Work Placement (minimum of 400 hours).</td>
+            </tr>
+          {{/if}}
+
           <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes]</td></tr>
           <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes2]</td></tr>
       </table>
