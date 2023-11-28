@@ -419,7 +419,9 @@
            
            students.forEach((student) => {
                if (parseInt(student.adp) > 0) {
-                   student.adpCertificate = adps[parseInt(student.adp)]
+                  student.adpCertificate = adps[parseInt(student.adp)]
+               } else {
+                  delete student.adp;
                }
                 student.currentCourses.pop();
                 student.rawCourses.pop();

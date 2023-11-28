@@ -5,6 +5,7 @@ Adds a web report to PowerSchool SIS that allows admin users to print an officia
 Make a selection of students and select *PEI Student Transcript* (under *PEI Reports*) in the Group Functions menu or on the Group Functions page.
 
 ## Release History
+* v2023.11.3 - Fixed issue with ADP showing up even when no ADP
 * v2023.11.2 - Fixed issue with ADP causing transcript to not print & added ESAP blurb to page 2
 * v2023.11.1 - Fixed issue where current course marks were not display
 * v2023.11 - Handlebars template deployed to production (November 14, 2023). V1 files removed from repo.
