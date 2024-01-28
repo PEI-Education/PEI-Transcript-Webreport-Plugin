@@ -182,7 +182,7 @@
     
         <div id="certs" class="certs">
             {{#if esap }}
-                <div class="esap">Essential Skills Achievement Pathway program participant. See reverse for more information.</div>
+                <div class="esap">Essential Skills Achievement Pathway program participant {{#if esapSelection}}({{ esapSelection }}){{/if}}. See reverse for more information.</div>
             {{/if }}
             {{#if adp }}
                 <div class="adp"><strong>Academy Diploma Program:</strong> {{ adpCertificate }}</div>
@@ -420,6 +420,9 @@
                   student.adpCertificate = adps[parseInt(student.adp)]
                } else {
                   delete student.adp;
+               }
+               if (student.esapSelection === 'None' || student.esapSelection === 'ESAP Workplace Entry') {
+                  delete student.esapSelection
                }
                 student.currentCourses.pop();
                 student.rawCourses.pop();

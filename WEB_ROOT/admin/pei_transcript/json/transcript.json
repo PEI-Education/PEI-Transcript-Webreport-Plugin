@@ -31,6 +31,7 @@
              and esap.studentid = s.id
              and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
          ) as esap,
+         nvl(code.displayvalue, 'None') esapSelection,
          nvl(stuext.pei_adpcertificate,0) adp,
          nvl(stuext.pei_frenchcertificate,0) frenchcertificate,
          stuext.pei_graduationdate gradDate,
@@ -46,6 +47,8 @@
             on scf.studentsdcid = s.dcid
        left join u_def_ext_students stuext
            on stuext.studentsdcid = s.dcid
+       left join codeset code
+           on code.code = stuext.pei_esap
        where s.id = ~(curstudid)
        ~[if.is.a.school]and s.schoolid = ~(curschoolid)[/if]
       ]
@@ -68,6 +71,7 @@
       "dob": "~(dob;d)",
       "studentNumber": "~(studentNumber)",
       "esap": ~(esap;l),
+      "esapSelection": "~(esapSelection;json)",
       "adp": "~(adp;json)",
       "frenchcertificate": ~(frenchcertificate),
       "gradDate": "~(gradDate;d)",
