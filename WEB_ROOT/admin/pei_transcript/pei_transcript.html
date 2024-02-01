@@ -221,7 +221,7 @@
             </table>
           </div>
           <div class="footer3">
-            <div class="footer3-left"><strong>Version 2023.11</strong></div>
+            <div class="footer3-left"><strong>Version 2024.1</strong></div>
             <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
             <div class="footer3-right">{{#if ../reportconfig.printHR }}<strong>Homerooom:</strong> {{hr}}{{ else }}~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]{{/if}}</div>
           </div>
@@ -232,124 +232,126 @@
           <div class="noprint" style="border-top: thin dotted;width: 100%;"></div>
       </div>
     
-    <!-- Start of page 2 -->
-       <div class="page">
-             <header>
+      <!-- Start of page 2 -->
+      <div class="page">
+        <header>
           <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prince_ed_is_student_transcript]</h1>
-      </header>
-      <table class="wide">
-          <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys]</td></tr>
-          <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys2]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys3]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys4]
-          </td></tr>
-          <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys]</td></tr>
-          <tr><td class="p2body">
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys2]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys3]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys4]
-          </td>
-          </tr>
-    
-    
-          <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_heading]</td></tr>
-          <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_body]</td></tr>
-    
-          <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_heading]</td></tr>
-          <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_body]</td></tr>
-          
-          {{#if esap }}
-            <tr><td class="p2head">Graduation Requirements - Essential Skills Achievement Pathway</td></tr>
-            <tr><td class="p2body">Post-Secondary Education pathway (ESAP-PSE) students are required to attain a mastery level in the Foundational Learning Block; attain a mastery level in one of the designated Post-Secondary Education Achievement Pathway Blocks; and demonstrate a minimum level-two complexity Capstone Project.<br /><br />
-            Workplace Entry pathway (ESAP-WE) students are required to attain a mastery level in the Foundational Learning Block; achieve a mastery level in Workplace Readiness Block; and meet the requirements of an experiential Work Placement (minimum of 400 hours).</td></tr>
-          {{/if}}
+        </header>
+        <table class="wide">
+            <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys]</td></tr>
+            <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys2]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys3]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_english_sys4]
+            </td></tr>
+            <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys]</td></tr>
+            <tr><td class="p2body">
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys2]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys3]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.definitions_french_sys4]
+            </td>
+            </tr>
+      
+      
+            <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_heading]</td></tr>
+            <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_body]</td></tr>
+      
+            <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_heading]</td></tr>
+            <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_body]</td></tr>
+            
+            {{#if esap }}
+              <tr><td class="p2head">Graduation Requirements - Essential Skills Achievement Pathway</td></tr>
+              <tr><td class="p2body">Post-Secondary Education pathway (ESAP-PSE) students are required to attain a mastery level in the Foundational Learning Block; attain a mastery level in one of the designated Post-Secondary Education Achievement Pathway Blocks; and demonstrate a minimum level-two complexity Capstone Project.<br /><br />
+              Workplace Entry pathway (ESAP-WE) students are required to attain a mastery level in the Foundational Learning Block; achieve a mastery level in Workplace Readiness Block; and meet the requirements of an experiential Work Placement (minimum of 400 hours).</td></tr>
+            {{/if}}
 
-          <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes]</td></tr>
-          <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes2]</td></tr>
-      </table>
-      <table class="credits-table">
-        <tr>
-          <td>
-              <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc]</strong><br />
-              3 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
-          </td>
-          <td>
-              <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade]</strong><br />
-              1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
-          </td>
-          <td>
-              <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.category]</strong><br />
+            <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes]</td></tr>
+            <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prov_course_codes2]</td></tr>
+        </table>
+        <table class="credits-table">
+          <tr>
+            <td>
+                <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc]</strong><br />
+                3 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
+            </td>
+            <td>
+                <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade]</strong><br />
+                1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
+            </td>
+            <td>
+                <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.category]</strong><br />
+                1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
+            </td>
+            <td>
+              <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_value]</strong><br />
               1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
-          </td>
-          <td>
-            <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_value]</strong><br />
-            1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
-          </td>
-          <td colspan="2">
-            <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ident]</strong><br />
-            1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
-        </tr>
-    
-    
-        <tr>
-          <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc1] <br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc2]</td>
-          <td>
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_4]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_5]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_6]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_7]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_8]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_9]
-          </td>
-          <td>
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_0]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_1]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_2]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_3]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_4]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_5]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_6]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_7]
-          </td>
-          <td>
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_0]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_1]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_2]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_3]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_4]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_5]<br />
-          </td>
-          <td class="noRightBorder">
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ae]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_fj]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_mr]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_s]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_t]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.progream_wz]
-          <td class="noLeftBorder">
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.eng_lang_course]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_imm_course]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_lang_course]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.advanced_placement]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.extern_creds]<br />
-            ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.local_program_course]
-          </td>
-        </tr>
-      </table>
-      <div class="footer">
-          <div class="wide">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.priv_statement]</div>
-          <div class="footer3">
-            <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
-          </div>
-      </div>
+            </td>
+            <td colspan="2">
+              <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ident]</strong><br />
+              1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
+          </tr>
+      
+      
+          <tr>
+            <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc1] <br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc2]</td>
+            <td>
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_4]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_5]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_6]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_7]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_8]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_9]
+            </td>
+            <td>
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_0]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_1]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_2]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_3]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_4]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_5]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_6]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_7]
+            </td>
+            <td>
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_0]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_1]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_2]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_3]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_4]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_5]<br />
+            </td>
+            <td class="noRightBorder">
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ae]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_fj]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_i]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_mr]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_s]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_t]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.progream_wz]
+            <td class="noLeftBorder">
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.eng_lang_course]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_imm_course]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ESAP]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_lang_course]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.advanced_placement]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.extern_creds]<br />
+              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.local_program_course]
+            </td>
+          </tr>
+        </table>
+        <div class="footer">
+            <div class="wide">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.priv_statement]</div>
+            <div class="footer3">
+              <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
+            </div>  
+        </div>
       </div>
         {{#unless @last}}
           <div class="pageBreak" style="clear: both;">
                     <div class="noprint" 4 style="border-top: thin dotted;width: 100%;"></div>
             </div>
         {{/unless}}
-        {{/each}}
+      {{/each}}
     </script>
    <div id="output"></div>
    <script>
