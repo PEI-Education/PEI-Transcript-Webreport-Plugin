@@ -5,6 +5,7 @@ Adds a web report to PowerSchool SIS that allows admin users to print an officia
 Make a selection of students and select *PEI Student Transcript* (under *PEI Reports*) in the Group Functions menu or on the Group Functions page.
 
 ## Release History
+* v2024.2.1 - Fixed current course marks displaying multiple times
 * v2024.1.2 - Fixed ESAP entry in legend, added EUI nav links
 * v2023.11.4 - Fixed issue with page 2 layout
 * v2023.11.3 - Fixed issue with ADP showing up even when no ADP
@@ -12,7 +13,7 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 * v2023.11.1 - Fixed issue where current course marks were not display
 * v2023.11 - Handlebars template deployed to production (November 14, 2023). V1 files removed from repo.
 > Note: changed numbering scheme to simplify versioning
-* v1.9.2 -                                                                                                                                                                                                                                                 Production-ready Handlebars template with single JSON data source and updated translations (still testing)
+* v1.9.2 - Production-ready Handlebars template with single JSON data source and updated translations (still testing)
 * v1.3 - Added Essential Skills Achievement Pathway indicator to transcript legend
 * v1.2 - Fixed issue with current courses
 * v1.1 - Made URL link a link
