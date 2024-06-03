@@ -108,6 +108,17 @@
                "parentHTMLID": "navReportCardsTranscriptsSection"
             }
           ]
+        },
+        {
+          "htmlID": "navReportCardData",
+          "title": "psx.htmlc.admin_nav.students.pei_report_card_data",
+          "sortOrder": 300,
+          "districtLevelContext": 0,
+          "contextType": "student",
+          "requiredContext": "student",
+          "pageURL": "/admin/students/pei_report_card_data.html?frn=~(studentfrn)",
+          "parentHTMLID": "navStudentAcademicProfile",
+          "version": "24.5.0.0"
         }
     ]
 }

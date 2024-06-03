@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://plugin.powerschool.pearson.com"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        description="Generates official PEI Student Transcripts - testing v2, complete rewrite"
+        description="Generates official PEI Student Transcripts"
         name="PEI Transcript"
-        version="2024.2.2"
+        version="2024.6"
         xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
 <publisher name="Department of Education and Lifelong Learning - Luke Walker">
   <contact email="lawalker@gov.pe.ca"/>

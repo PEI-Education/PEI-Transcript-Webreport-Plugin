@@ -18,19 +18,19 @@
     }
     if ('~(gpv.printHR)' === 'hr') {
         reportconfig.printHR = 'hr';
-        console.log('~(gpv.printHR)')
     }
   </script>
-  <link rel="stylesheet" type="text/css" href="css/styles1.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="css/spinner.css">
 </head>
 <body>
-    <div id="overlay"><div class="spinner"></div><br/>Loading...</div>
+    <script>loadingDialog();</script>
+    <!--<div id="overlay"><div class="spinner"></div><br/>Loading...</div>-->
     ~[x:insertfile;/admin/pei_report_cards/instruction_template/instuctions.html]
    <script id="transcript" type="text/x-handlebars-template">
     {{#each students}}
       <div id="~(id)" class="page">
-        <img src="image/~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei].png" class="logo2" />
+        <img src="image/~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei_logo].png" class="logo2" />
         <header>
           <h1>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.prince_ed_is_student_transcript]</h1>
         </header>
@@ -221,7 +221,7 @@
             </table>
           </div>
           <div class="footer3">
-            <div class="footer3-left"><strong>Version 2024.1</strong></div>
+            <div class="footer3-left"><strong>Version 2024.5</strong></div>
             <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
             <div class="footer3-right">{{#if ../reportconfig.printHR }}<strong>Homerooom:</strong> {{hr}}{{ else }}~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]{{/if}}</div>
           </div>
@@ -269,32 +269,32 @@
         </table>
         <table class="credits-table">
           <tr>
-            <td>
+            <td class="credits-table-td">
                 <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc]</strong><br />
                 3 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
             </td>
-            <td>
+            <td class="credits-table-td">
                 <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade]</strong><br />
                 1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.characters]
             </td>
-            <td>
+            <td class="credits-table-td">
                 <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.category]</strong><br />
                 1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
             </td>
-            <td>
+            <td class="credits-table-td">
               <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_value]</strong><br />
               1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
             </td>
-            <td colspan="2">
+            <td class="credits-table-td" colspan="2">
               <strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ident]</strong><br />
               1 ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.character]
           </tr>
       
       
           <tr>
-            <td>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc1] <br />
+            <td class="credits-table-td" rowspan="7">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc1] <br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_desc2]</td>
-            <td>
+            <td class="credits-table-td" rowspan="7">
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_4]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_5]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_6]<br />
@@ -302,7 +302,7 @@
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_8]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grade_9]
             </td>
-            <td>
+            <td class="credits-table-td" rowspan="7">
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_0]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_1]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_2]<br />
@@ -312,7 +312,7 @@
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_6]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.cat_7]
             </td>
-            <td>
+            <td class="credits-table-td" rowspan="7">
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_0]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_1]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_2]<br />
@@ -320,23 +320,32 @@
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_4]<br />
               ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_5]<br />
             </td>
-            <td class="noRightBorder">
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ae]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_fj]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_i]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_mr]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_s]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_t]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.progream_wz]
-            <td class="noLeftBorder">
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.eng_lang_course]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_imm_course]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ESAP]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_lang_course]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.advanced_placement]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.extern_creds]<br />
-              ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.local_program_course]
-            </td>
+            <td class="no-right-border no-bottom-border top">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_ae]</td>
+            <td class="no-left-border no-bottom-border top">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.eng_lang_course]</td>
+          </tr>
+          <tr>
+            <td class="no-right-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_fj]</td>
+            <td class="no-left-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_imm_course]</td>
+          </tr>
+          <tr>
+            <td class="no-right-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_i]</td>
+            <td class="no-left-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ESAP]</td>
+          </tr>
+          <tr>
+            <td class="no-right-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_mr]</td>
+            <td class="no-left-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.fre_lang_course]</td>
+          </tr>
+          <tr>
+            <td class="no-right-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_s]</td>
+            <td class="no-left-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.advanced_placement]</td>
+          </tr>
+          <tr>
+            <td class="no-right-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.program_t]</td>
+            <td class="no-left-border no-bottom-border middle">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.extern_creds]</td>
+          </tr>
+          <tr>
+            <td class="no-right-border border-bottom">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.progream_wz]</td>
+            <td class="no-left-border border-bottom">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.local_program_course]</td>
           </tr>
         </table>
         <div class="footer">
@@ -456,7 +465,7 @@
            output.innerHTML = template(outputData)
            const overlay = document.getElementById('overlay')
            fadeOutEffect();
-           overlay.remove()
+           closeLoading();
        }
        
        populate(dataUrl);
