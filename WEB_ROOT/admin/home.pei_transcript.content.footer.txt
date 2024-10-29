@@ -42,7 +42,7 @@
                 },               
                 {
                     name: 'CSLF - Bulletin maternelle',
-                    address: '/admin/pei_report_cards/cslf_k_report_card_prefs.html',
+                    address: '/admin/pei_reportcards_v2/cslf_m_rc_prefs.html',
                     htmlid: 'cslf_k_report_card'
                 },
                 {
