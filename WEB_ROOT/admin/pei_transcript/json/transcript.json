@@ -29,7 +29,7 @@
            where
            gen.name = 'Essential Skills Achievement Pathway'
              and esap.studentid = s.id
-             and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
+             and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')  
          ) as esap,
          nvl(code.displayvalue, 'None') esapSelection,
          nvl(stuext.pei_adpcertificate,0) adp,
@@ -37,13 +37,14 @@
          stuext.pei_graduationdate gradDate,
          case when substr(stuext.pei_hasgraduated, 0,1) = 'Y' then 1 else null end as gradY,
          case when substr(stuext.pei_hasgraduated, 0,1) <> 'Y' or stuext.pei_graduationdate is null then 1 else null end as gradN,
-         s.home_room
+         s.home_room,
+         case when stuext.pei_graduationdate < to_date('09/01/2024','mm/dd/yyyy') then 1 else null end as oldGradReqs
       from students s
       join schools sch
            on s.schoolid = sch.school_number
       left join u_dyn_schools_1 schext
            on schext.schoolsdcid = sch.dcid
-       left join studentcorefields scf 
+       left join studentcorefields scf
             on scf.studentsdcid = s.dcid
        left join u_def_ext_students stuext
            on stuext.studentsdcid = s.dcid
@@ -73,11 +74,12 @@
       "esap": ~(esap;l),
       "esapSelection": "~(esapSelection;json)",
       "adp": "~(adp;json)",
-      "frenchcertificate": ~(frenchcertificate),
+      "frenchcertificate": ~(frenchcertificate;l),
       "gradDate": "~(gradDate;d)",
       "gradY": ~(gradY;l),
       "gradN": ~(gradN;l),
       "hr": "~(home_room;json)",
+      "oldGradReqs": ~(oldGradReqs;l),
       [/tlist_sql] 
       "rawCourses": [
          ~[tlist_sql;

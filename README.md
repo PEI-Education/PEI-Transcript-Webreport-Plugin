@@ -5,6 +5,8 @@ Adds a web report to PowerSchool SIS that allows admin users to print an officia
 Make a selection of students and select *PEI Student Transcript* (under *PEI Reports*) in the Group Functions menu or on the Group Functions page.
 
 ## Release History
+* v2024.11 - Updated to better highlight ESAP & to include new grad reqs
+* v2024.10 - Updated pagenavigation for report card changes
 * v2024.6 - Update credits table, add Audited special code, add link to PEI Report Card Data in EUI
 * v2024.2.1 - Fixed current course marks displaying multiple times
 * v2024.1.2 - Fixed ESAP entry in legend, added EUI nav links

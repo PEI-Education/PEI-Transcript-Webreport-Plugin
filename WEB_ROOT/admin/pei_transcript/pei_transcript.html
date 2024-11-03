@@ -26,7 +26,7 @@
 <body>
     <script>window.addEventListener('beforeprint', function (event) { window.scrollTo(0, 0) });</script>
     <script>loadingDialog();</script>
-    <!--<div id="overlay"><div class="spinner"></div><br/>Loading...</div>-->
+    <div id="overlay"><div class="spinner"></div><br/>Loading...</div>
     ~[x:insertfile;/admin/pei_report_cards/instruction_template/instuctions.html]
    <script id="transcript" type="text/x-handlebars-template">
     {{#each students}}
@@ -183,7 +183,7 @@
     
         <div id="certs" class="certs">
             {{#if esap }}
-                <div class="esap">Essential Skills Achievement Pathway program participant {{#if esapSelection}}({{ esapSelection }}){{/if}}. See reverse for more information.</div>
+                <div class="esap"><strong>*Essential Skills Achievement Pathway program participant {{#if esapSelection}}({{ esapSelection }}){{/if}}. See reverse for more information.</strong></div>
             {{/if }}
             {{#if adp }}
                 <div class="adp"><strong>Academy Diploma Program:</strong> {{ adpCertificate }}</div>
@@ -222,7 +222,7 @@
             </table>
           </div>
           <div class="footer3">
-            <div class="footer3-left"><strong>Version 2024.5</strong></div>
+            <div class="footer3-left"><strong>Version 2024.11</strong></div>
             <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
             <div class="footer3-right">{{#if ../reportconfig.printHR }}<strong>Homerooom:</strong> {{hr}}{{ else }}~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]{{/if}}</div>
           </div>
@@ -254,8 +254,11 @@
       
       
             <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_heading]</td></tr>
-            <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_body]</td></tr>
-      
+            {{#if oldGradReqs }}
+                <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_body] <span style="text-decoration: underline;">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_url]</span></td></tr>
+            {{else}}
+                <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_body_new] <span style="text-decoration: underline;">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_en_url]</span></td></tr>
+            {{/if}}
             <tr><td class="p2head">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_heading]</td></tr>
             <tr><td class="p2body">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.graduation_requirements_fr_body]</td></tr>
             
@@ -437,11 +440,25 @@
                   delete student.esapSelection
                }
                 student.currentCourses.pop();
+                student.currentCourses.forEach((course) => {
+                    if (course.number === 'EPS800J') {
+                        if (student.esapSelection) {
+                            //course.name += ` (${student.esapSelection.substr(9)})`;
+                            course.name += '*';
+                        }
+                    }
+                })
                 student.rawCourses.pop();
                 student.rawCourses.forEach((course) => {
                     if (course.number.substr(0,3) == 'OPC') {
                         student.courses.opc.push(course);
                     } else if (course.subject === 'ESAP') {
+                        if (course.number === 'EPS800J') {
+                            if (student.esapSelection) {
+                                //course.name += ` (${student.esapSelection.substr(9)})`;
+                                course.name += '*';
+                            }
+                        }
                         student.courses.esap.push(course);
                     } else if (course.potentialCredit === course.credit) {
                         student.courses.completed.push(course)
