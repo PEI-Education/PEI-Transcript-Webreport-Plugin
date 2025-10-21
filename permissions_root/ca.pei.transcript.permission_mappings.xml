@@ -1,0 +1,5 @@
+ <permission_mappings>
+    <permission name='/admin/home.html'>
+      <implies allow="post">/ws/schema/query/ca.pei.reporting.transcript.get_transcript_data</implies>
+    </permission>
+  </permission_mappings>
