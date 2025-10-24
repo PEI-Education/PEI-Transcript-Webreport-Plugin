@@ -44,23 +44,23 @@
               </colgroup>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.school_name]</strong></td>
-                  <td>{{ school.name }}</td>
+                  <td>{{ school_name }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.address]</strong></td>
-                  <td>{{school.address }}</td>
+                  <td>{{school_address }}</td>
               </tr>
               <tr>
                   <td></td>
-                  <td>{{ school.city }}, {{ school.state }} {{ school.zip }}</td>
+                  <td>{{ school_city }}, {{ school_state }} {{ school_zip_code }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.telephone]</strong></td>
-                  <td>{{ school.phone }}</td>
+                  <td>{{ school_phone_number }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.website]</strong></td>
-                  <td>{{ school.url }}</td>
+                  <td>{{ school_website }}</td>
               </tr>
           </table>
           <table class="student">
@@ -70,19 +70,19 @@
               </colgroup>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.legal_name]</strong></td>
-                  <td>{{ legalLastName }}, {{ legalFirstName }} {{ legalMiddleName }}</td>
+                  <td>{{ legal_last_name }}, {{ legal_first_name }} {{ legal_middle_name }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.common_name]</strong></td>  
-                  <td>{{ lastName }}, {{ firstName }}</td>
+                  <td>{{ last_name }}, {{ first_name }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.birthdate]</strong></td>
-                  <td>{{ dob }}</td>
+                  <td>{{ date_of_birth }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.student_number]</strong></td>
-                  <td>{{ studentNumber }}</td>
+                  <td>{{ student_number }}</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -101,7 +101,7 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_area]</th>
+                  <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.subject_area]</th>
                   <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.credit_date]</th>
                   <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.course_code]</th>
                   <th class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.course_name]</th>
@@ -184,12 +184,12 @@
     
         <div id="certs" class="certs">
             {{#if esap }}
-                <div class="esap"><strong>*Essential Skills Achievement Pathway program participant {{#if esapSelection}}({{ esapSelection }}){{/if}}. See reverse for more information.</strong></div>
+                <div class="esap"><strong>*Essential Skills Achievement Pathway program participant {{#if esap_selection}}({{ esap_selection }}){{/if}}. See reverse for more information.</strong></div>
             {{/if }}
             {{#if adp }}
-                <div class="adp"><strong>Academy Diploma Program:</strong> {{ adpCertificate }}</div>
+                <div class="adp"><strong>Academy Diploma Program:</strong> {{ adp_certificate }}</div>
             {{/if }}
-            {{#if frenchcertificate }}
+            {{#if french_certificate }}
                 <div class="fp"><strong>Certificate:</strong> French Immersion</div>
             {{/if }}
         </div>
@@ -197,8 +197,8 @@
         <div class="footer">
             <div class="footer1">
                 <span class="footer1-left"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.has_completed_grad_reqs]</strong></span>
-                <span class="footer1-center"><div id="~(id)-grad-y" class="check">{{#if gradY }}X{{else}}&nbsp;{{/if}}</div> ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.yes] &nbsp;&nbsp;&nbsp; <div id="~(id)-grad-n" class="check">{{#if gradN }}X{{else}}&nbsp;{{/if}}</div> ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.no]</span>
-                <span class="footer1-right"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grad_date] </strong><span class="grad-date">{{#if gradY}}{{ gradDate }}{{else}}---{{/if}}</span></span>
+                <span class="footer1-center"><div id="~(id)-grad-y" class="check">{{#if grady }}X{{else}}&nbsp;{{/if}}</div> ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.yes] &nbsp;&nbsp;&nbsp; <div id="~(id)-grad-n" class="check">{{#if gradn }}X{{else}}&nbsp;{{/if}}</div> ~[text:psx.htmlc.admin_pei_transcript.pei_transcript.no]</span>
+                <span class="footer1-right"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.grad_date] </strong><span class="grad-date">{{#if grady}}{{ grad_date }}{{else}}---{{/if}}</span></span>
           </div>
           <div class="footer2">
             <table class="signature">
@@ -223,8 +223,8 @@
             </table>
           </div>
           <div class="footer3">
-            <div class="footer3-left"><strong>Version 2024.11</strong></div>
-            <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
+            <div class="footer3-left"><strong>Version 2025.10</strong></div>
+            <div class="footer3-center">{{ last_name }}, {{ first_name }} ({{ student_number }})</div>
             <div class="footer3-right">{{#if ../reportconfig.printHR }}<strong>Homerooom:</strong> {{hr}}{{ else }}~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]{{/if}}</div>
           </div>
         </div>
@@ -356,7 +356,7 @@
         <div class="footer">
             <div class="wide">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.priv_statement]</div>
             <div class="footer3">
-              <div class="footer3-center">{{ lastName }}, {{ firstName }} ({{ studentNumber }})</div>
+              <div class="footer3-center">{{ last_name }}, {{ first_name }} ({{ student_number }})</div>
             </div>  
         </div>
       </div>
@@ -428,10 +428,16 @@
         ];
         
        const dataUrl = `json/transcript.json?dothisfor=${reportconfig.dothisfor}&ccmarks=${reportconfig.ccMarks}`;
-       
-       const process = (students) => {
+
+       const process = (students, credits) => {
            
            students.forEach((student) => {
+              student.courses = {
+                  opc: [],
+                  esap: [],
+                  completed: [],
+                  attempted: []
+              };
                if (parseInt(student.adp) > 0) {
                   student.adpCertificate = adps[parseInt(student.adp)]
                } else {
@@ -440,6 +446,8 @@
                if (student.esapSelection === 'None' || student.esapSelection === 'ESAP Workplace Entry') {
                   delete student.esapSelection
                }
+
+               /*
                 student.currentCourses.pop();
                 student.currentCourses.forEach((course) => {
                     if (course.number === 'EPS800J') {
@@ -449,19 +457,21 @@
                         }
                     }
                 })
-                student.rawCourses.pop();
+                */
+
+                student.rawCourses = credits.filter( (course) => course.student_id === student.student_id );
                 student.rawCourses.forEach((course) => {
-                    if (course.number.substr(0,3) == 'OPC') {
+                    if (course.course_number.substr(0,3) == 'OPC') {
                         student.courses.opc.push(course);
                     } else if (course.subject === 'ESAP') {
-                        if (course.number === 'EPS800J') {
-                            if (student.esapSelection) {
+                        if (course.course_number === 'EPS800J') {
+                            if (student.esap_selection) {
                                 //course.name += ` (${student.esapSelection.substr(9)})`;
                                 course.name += '*';
                             }
                         }
                         student.courses.esap.push(course);
-                    } else if (course.potentialCredit === course.credit) {
+                    } else if (course.potentialcrhrs === course.earnedcrhrs) {
                         student.courses.completed.push(course)
                     } else {
                         student.courses.attempted.push(course)
@@ -470,12 +480,12 @@
                 })
 
            });
-           
+           console.log(students);
            return students
            
        }
        
-       const populate = async (url) => {
+      /* const populate = async (url) => {
            const response = await fetch(url)
            const results = await response.json()
            const processedStudents = process(results)
@@ -487,8 +497,53 @@
            closeLoading();
        }
        
-       populate(dataUrl);
+       populate(dataUrl);*/
        
+       
+        $j(function() {
+            async function getData() {
+              const studentPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1000", {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                        },
+                        body:""});
+
+              const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=10000", {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                        },
+                        body:""});
+
+              Promise.all([studentPromise, creditsPromise]).then(responses => Promise.all(responses.map(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+              }))).then(data => {
+                console.log(data);
+                const students = data[0].record;
+                const credits = data[1].record;
+                const processedStudents = process(students, credits);
+                const outputData = { reportconfig: reportconfig, students: processedStudents }
+                const output = document.getElementById('output')
+                output.innerHTML = template(outputData)
+                const overlay = document.getElementById('overlay')
+                fadeOutEffect();
+                closeLoading();
+              }).catch(error => {
+                console.error('Error fetching data:', error);
+              });
+
+            }
+
+            getData();
+        });
    </script> 
 </body>
 </html>

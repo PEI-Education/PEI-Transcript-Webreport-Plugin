@@ -112,9 +112,35 @@
     <!-- JavaScript to test fetching student data -->
      <script>
         $j(function() {
+
             async function getData() {
+              const response = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=10000", {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                        },
+                        body:""});
+                    
+                    // Fetch does not automatically throw an error for HTTP error statuses (like 404 or 500).
+                    // You need to explicitly check the response.ok property.
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log(data);
+                } catch (error) {
+                    // This block catches network errors (e.g., no internet connection, CORS issues)
+                    // and errors explicitly thrown within the try block (like for !response.ok).
+                    console.error('Error fetching data:', error);
+                    // You might want to display a user-friendly message or log the error to a service.
+                    return null; // Or handle the error in another appropriate way
+                }
+
                 try {
-                    const response = await fetch("/ws/schema/query/ca.pei.reporting.transcript.get_transcript_data?dofor=selection:selectedstudents", {
+                    const response = await fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=10000", {
                         method: 'POST',
                         credentials: 'same-origin',
                         headers: {

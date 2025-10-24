@@ -6,7 +6,7 @@
       ~[tlist_sql;
       select
         s.id sid,
-        s.schoolid schid,
+        se.schoolid schid,
         sch.name schName,
         sch.schooladdress schAddress,
         sch.schoolcity schCity,
@@ -29,7 +29,7 @@
            where
            gen.name = 'Essential Skills Achievement Pathway'
              and esap.studentid = s.id
-             and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')  
+             and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
          ) as esap,
          nvl(code.displayvalue, 'None') esapSelection,
          nvl(stuext.pei_adpcertificate,0) adp,
@@ -37,21 +37,24 @@
          stuext.pei_graduationdate gradDate,
          case when substr(stuext.pei_hasgraduated, 0,1) = 'Y' then 1 else null end as gradY,
          case when substr(stuext.pei_hasgraduated, 0,1) <> 'Y' or stuext.pei_graduationdate is null then 1 else null end as gradN,
-         s.home_room,
-         case when stuext.pei_graduationdate < to_date('09/01/2024','mm/dd/yyyy') then 1 else null end as oldGradReqs
+         s.home_room
       from students s
-      join schools sch
-           on s.schoolid = sch.school_number
-      left join u_dyn_schools_1 schext
+       left join ps_schoolenrollment se
+           on se.studentid = s.id
+           and se.schoolid = ~(curschoolid)
+           --and se.yearid = ~(curyearid)
+       left join schools sch
+           on se.schoolid = sch.school_number
+       left join u_dyn_schools_1 schext
            on schext.schoolsdcid = sch.dcid
-       left join studentcorefields scf
+       left join studentcorefields scf 
             on scf.studentsdcid = s.dcid
        left join u_def_ext_students stuext
            on stuext.studentsdcid = s.dcid
        left join codeset code
            on code.code = stuext.pei_esap
        where s.id = ~(curstudid)
-       ~[if.is.a.school]and s.schoolid = ~(curschoolid)[/if]
+       ~[if.is.a.school]and se.schoolid = ~(curschoolid)[/if]
       ]
       "sid":"~(sid;json)",
       "school": {
@@ -74,48 +77,55 @@
       "esap": ~(esap;l),
       "esapSelection": "~(esapSelection;json)",
       "adp": "~(adp;json)",
-      "frenchcertificate": ~(frenchcertificate;l),
+      "frenchcertificate": ~(frenchcertificate),
       "gradDate": "~(gradDate;d)",
       "gradY": ~(gradY;l),
       "gradN": ~(gradN;l),
       "hr": "~(home_room;json)",
-      "oldGradReqs": ~(oldGradReqs;l),
       [/tlist_sql] 
       "rawCourses": [
-         ~[tlist_sql;
-           select
-             to_char(t.lastday,'yyyy/mm') lastday,
-             sg.course_number,
-             sg.course_name,
-             sg.grade,
-             sg.earnedcrhrs,
-             sg.potentialcrhrs,
-             case sg.credit_type 
-               when 'EN' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_EN]'
-               when 'FR' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_FR]'
-               when 'LA' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_LA]'
-               when 'MA' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_MA]'
-               when 'OP' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_OP]'
-               when 'SC' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SC]'
-               when 'SH' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]'
-               when 'SS' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]'
-               when 'ESAP' then 'ESAP'
-               else '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ZZ]'
-           end as subject
-           from students s
-           join storedgrades sg
-             on sg.studentid = s.id
-           join terms t
+        ~[tlist_sql;
+            SELECT
+              to_char(t.lastday,'yyyy/mm') as lastday,
+              sg.course_number,
+              sg.course_name,
+              sg.grade,
+              sg.earnedcrhrs,
+              sg.potentialcrhrs,
+              case sg.credit_type 
+                when 'EN' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_EN]'
+                when 'FR' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_FR]'
+                when 'LA' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_LA]'
+                when 'MA' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_MA]'
+                when 'OP' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_OP]'
+                when 'SC' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SC]'
+                when 'SH' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]'
+                when 'SS' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]'
+                when 'ESAP' then 'ESAP'
+                else '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ZZ]'
+              end as subject
+            from students s
+            join ps_schoolenrollment se
+              on se.studentid = s.id
+              and se.schoolid = ~(curschoolid)
+              and se.exitdate =  (SELECT MAX (seb.exitdate)
+                               FROM ps_schoolenrollment seb
+                               WHERE seb.studentid = s.id
+                               AND seb.schoolid = ~(curschoolid)
+                              )
+            join storedgrades sg
+              on sg.studentid = s.id
+            join terms t
               on t.id = sg.termid
-              and t.schoolid = s.schoolid
-           join courses c
+              and t.schoolid = se.schoolid
+            join courses c
               on c.course_number = sg.course_number
-           where
-             s.id = ~(curstudid)
-             and sg.storecode = 'F1'
-             and nvl(c.sched_do_not_print,0) = 0
-             and nvl(sg.excludefromtranscripts,0) = 0
-           order by s.id ASC, sg.credit_type ASC, t.lastday ASC;
+            where 1=1
+              and s.id = ~(curstudid)
+              and sg.storecode = 'F1'
+              and nvl(c.sched_do_not_print,0) = 0
+              and nvl(sg.excludefromtranscripts,0) = 0
+            order by s.id ASC, sg.credit_type ASC, t.lastday ASC;
           ]
           {
                "creditDate": "~(lastday;json)",
