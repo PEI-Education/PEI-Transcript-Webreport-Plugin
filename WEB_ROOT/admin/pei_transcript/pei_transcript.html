@@ -79,7 +79,7 @@
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.common_name]</strong></td>  
-                  <td>{{ last_name }}, {{ first_name }}</td>
+                  <td>{{ last_name }}, {{ first_name }} {{ middle_name }}</td>
               </tr>
               <tr>
                   <td><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.birthdate]</strong></td>
@@ -134,7 +134,7 @@
                             <td class="left">{{ creditDate }}</td>
                             <td class="left">{{ number }}</td>
                             <td class="left">{{{ name }}}</td>
-                            <td class="center">{{round mark }}</td>
+                            <td class="center">{{round grade }}</td>
                             <td class="center">{{pad credit }}</td>
                         </tr>
                     {{/each }}
@@ -147,7 +147,7 @@
                         <td class="left">{{ creditDate }}</td>
                         <td class="left">{{ number }}</td>
                         <td class="left">{{{ name }}}</td>
-                        <td class="center">{{round mark }}</td>
+                        <td class="center">{{round grade }}</td>
                         <td class="center">{{pad credit }}</td>
                     </tr>
                 {{/each }}
@@ -159,7 +159,7 @@
                         <td class="left">{{ creditDate }}</td>
                         <td class="left">{{ number }}</td>
                         <td class="left">{{{ name }}}</td>
-                        <td class="center">{{round mark }}</td>
+                        <td class="center">{{round grade }}</td>
                         <td class="center">{{pad credit }}</td>
                     </tr>
                 {{/each }}
@@ -170,9 +170,9 @@
                         <tr class="current">
                             <td class="left">{{ status }}</td>
                             <td class="left"></td>
-                            <td class="left">{{ number }}</td>
-                            <td class="left">{{{ name }}}</td>
-                            <td class="center">{{round mark }}</td>
+                            <td class="left">{{ course_number }}</td>
+                            <td class="left">{{{ course_name }}}</td>
+                            <td class="center">{{round grade }}</td>
                             <td class="center">-</td> 
                         </tr>
                     {{/each}}
@@ -443,68 +443,55 @@
                 completed: [],
                 attempted: []
             };
-              if (parseInt(student.adp) > 0) {
-                student.adpCertificate = adps[parseInt(student.adp)]
-              } else {
-                delete student.adp;
-              }
-              if (student.esapSelection === 'None' || student.esapSelection === 'ESAP Workplace Entry') {
-                delete student.esapSelection
-              }
+            student.currentCourses = 
+            student.total_credits = 0;
 
-              /*
-              student.currentCourses.pop();
-              student.currentCourses.forEach((course) => {
-                  if (course.number === 'EPS800J') {
-                      if (student.esapSelection) {
+            if (parseInt(student.adp) > 0) {
+              student.adpCertificate = adps[parseInt(student.adp)]
+            } else {
+              delete student.adp;
+            }
+            if (student.esapSelection === 'None' || student.esapSelection === 'ESAP Workplace Entry') {
+              delete student.esapSelection
+            }
+
+
+
+            student.currentCourses.forEach((course) => {
+                if (course.number === 'EPS800J') {
+                    if (student.esapSelection) {
+                        //course.name += ` (${student.esapSelection.substr(9)})`;
+                        course.name += '*';
+                    }
+                }
+            })
+
+            student.rawCourses = credits.filter( (course) => course.student_id === student.student_id );
+            student.rawCourses.forEach((course) => {
+              student.total_credits += isNaN(parseFloat(course.earnedcrhrs)) ? 0 : parseFloat(course.earnedcrhrs);
+              if (course.course_number.substr(0,3) == 'OPC') {
+                  student.courses.opc.push(course);
+              } else if (course.subject === 'ESAP') {
+                  if (course.course_number === 'EPS800J') {
+                      if (student.esap_selection) {
                           //course.name += ` (${student.esapSelection.substr(9)})`;
                           course.name += '*';
                       }
                   }
-              })
-              */
-
-              student.rawCourses = credits.filter( (course) => course.student_id === student.student_id );
-              student.total_credits = 0;
-              student.rawCourses.forEach((course) => {
-                  student.total_credits += isNaN(parseFloat(course.earnedcrhrs)) ? 0 : parseFloat(course.earnedcrhrs);
-                  if (course.course_number.substr(0,3) == 'OPC') {
-                      student.courses.opc.push(course);
-                  } else if (course.subject === 'ESAP') {
-                      if (course.course_number === 'EPS800J') {
-                          if (student.esap_selection) {
-                              //course.name += ` (${student.esapSelection.substr(9)})`;
-                              course.name += '*';
-                          }
-                      }
-                      student.courses.esap.push(course);
-                  } else if (course.potentialcrhrs === course.earnedcrhrs) {
-                      student.courses.completed.push(course)
-                  } else {
-                      student.courses.attempted.push(course)
-                  }
+                  student.courses.esap.push(course);
+              } else if (course.potentialcrhrs === course.earnedcrhrs) {
+                  student.courses.completed.push(course)
+              } else {
+                  student.courses.attempted.push(course)
+              }
                   
-              })
+            })
 
           });
           console.log(students);
           return students
           
       }
-      
-    /* const populate = async (url) => {
-          const response = await fetch(url)
-          const results = await response.json()
-          const processedStudents = process(results)
-          const outputData = { reportconfig: reportconfig, students: processedStudents }
-          const output = document.getElementById('output')
-          output.innerHTML = template(outputData)
-          const overlay = document.getElementById('overlay')
-          fadeOutEffect();
-          closeLoading();
-      }
-      
-      populate(dataUrl);*/
       
     const renderChunks = (students, chunkSize = 25) => {
         const output = document.getElementById('output');
@@ -540,8 +527,17 @@
                       'Content-Type': 'application/json'
                       },
                       body:""});
+            
+            const currentCoursesPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=10000", {
+                      method: 'POST',
+                      credentials: 'same-origin',
+                      headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                      },
+                      body:""});
 
-            Promise.all([studentPromise, creditsPromise]).then(responses => Promise.all(responses.map(response => {
+            Promise.all([studentPromise, creditsPromise, currentCoursesPromise]).then(responses => Promise.all(responses.map(response => {
               if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
               }
@@ -550,7 +546,9 @@
               console.log(data);
               const students = data[0].record;
               const credits = data[1].record;
-              const processedStudents = process(students, credits);
+              const currentCourses = data[2].record;
+
+              const processedStudents = process(students, credits, currentCourses);
               renderChunks(processedStudents, 25);
               fadeOutEffect();
               closeLoading();

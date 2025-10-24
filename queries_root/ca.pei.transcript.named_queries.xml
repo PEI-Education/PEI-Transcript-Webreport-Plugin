@@ -25,9 +25,9 @@
 			<column column="u_def_ext_students.pei_hasgraduated">Transcript.GradY</column>
       <column column="u_def_ext_students.pei_hasgraduated">Transcript.GradN</column>
 			<column column="u_def_ext_students.pei_hasgraduated">Transcript.Grad_Date</column>
-			<column column="u_def_ext_students.pei_adpcertificate">Transcript.ADP_Certificate</column>
+			<column column="u_def_ext_students.pei_adpcertificate">Transcript.ADP</column>
 			<column column="u_def_ext_students.pei_frenchcertificate">Transcript.French_Certificate</column>
-			<column column="u_def_ext_students.pei_ib">Transcript.IB_Certificate</column>
+			<column column="u_def_ext_students.pei_ib">Transcript.IB</column>
       <column column="gen.name">Transcript.ESAP</column>
       <column column="codeset.displayvalue">Transcript.ESAP_Selection</column>
 		</columns>
@@ -60,9 +60,9 @@
           case when substr(stuext.pei_hasgraduated, 0,1) = 'Y' then 1 else null end as gradY,
           case when substr(stuext.pei_hasgraduated, 0,1) <> 'Y' or stuext.pei_graduationdate is null then 1 else null end as gradN,
           to_char(stuext.pei_graduationdate, 'MM/DD/YYYY') pei_graduationdate,
-          stuext.pei_adpcertificate pei_adpcertificate,	
-          stuext.pei_frenchcertificate pei_frenchcertificate,
-          stuext.pei_ib pei_ib,
+          stuext.pei_adpcertificate adp,
+          stuext.pei_frenchcertificate french_certificate,
+          stuext.pei_ib ib,
            (select distinct
              case when gen.name = 'Essential Skills Achievement Pathway' then 1 else null end
            from SPEnrollments esap
@@ -101,7 +101,7 @@
 
 		<columns>
 			<column column="students.id">Transcript.Student_ID</column>
-      <column column="students.first_name">Transcript.LastDay</column>
+      <column column="storedgrades.course_name">Transcript.LastDay</column>
 			<column column="storedgrades.credit_type">Transcript.Credit_Type</column>
 			<column column="storedgrades.Course_Number">Transcript.Course_Number</column>
 			<column column="storedgrades.Course_Name">Transcript.Course_Name</column>
@@ -139,9 +139,7 @@
 					on sg.studentid = s.id
 				join terms t
 					on t.id = sg.termid
-				and t.schoolid = s.schoolid
-				join u_def_ext_students stuext
-					on stuext.studentsdcid = s.dcid
+				  and t.schoolid = s.schoolid
 				where 
           sg.storecode = 'F1'
           and nvl(sg.ExcludeFromTranscripts,0) = 0
@@ -150,45 +148,55 @@
 		</sql>
 	</query>
 
-	<query name="ca.pei.reporting.transcript.current_courses" coreTable="students" flattened="false">
+	<query name="ca.pei.reporting.transcript.current_courses" coreTable="cc" flattened="true">
 
 		<description>Transcript data export - current courses</description>
 
 		<columns>
 			<column column="students.id">Transcript.Student_ID</column>
+      <column column="cc.course_number">Transcript.Status</column>
 			<column column="cc.course_number">Transcript.Course_Number</column>
 			<column column="courses.course_name">Transcript.Course_Name</column>
-			<column column="terms.abbreviation">Transcript.Term</column>
-			<column column="students.first_name">Transcript.School_Year</column>
-			<column column="storedgrades.grade">Transcript.Grade</column>
+			<column column="storedgrades.grade">Transcript.Current_Grade</column>
 		</columns>
 
 		<sql>
 			<![CDATA[
-				select
-					s.id student_id,
-					cc.course_number course_number,
-					c.course_name course_name,
-					t.abbreviation term,
-					t.yearid school_year,
-				  sg.grade as currentgrade as grade
-				from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
-				join students s
-					on s.dcid = sel.dcid
-				join cc
-					on cc.studentid = s.id
-				join sections sec
-					on sec.id = cc.sectionid
-				join courses c
-					on c.course_number = sec.course_number
-					and c.schoolid = sec.schoolid
-				join terms t
-					on t.id = sec.termid
-          and t.schoolid = sec.schoolifd
-				where cc.sectionid > 0
-					and cc.enroll_status >= 0
-				order by s.id, nvl(sec.start_date, t.firstday), c.course_name
+          select
+            s.id student_id,
+            case
+                when regs.DATEENROLLED <= SYSDATE then 'In Progress'
+                when regs.DATEENROLLED > SYSDATE then 'Next Semester'
+            end as status,
+            regs.course_number course_number,
+            c.course_name course_name,
+            nvl(cg.grade,'-') as current_grade
+          from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+          join students s
+              on s.dcid = sel.dcid
+          join cc regs
+              on regs.studentid = s.id
+          join courses c
+              on c.course_number = regs.course_number
+          left join (select 
+                  sg.studentid studentid,
+                  sg.sectionid sectionid,
+                  sg.course_number course_number, 
+                  sg.grade grade, 
+                  nvl(sg.excludefromtranscripts,0) excludeCourse 
+              from storedgrades sg 
+              where 1=1
+              and substr(sg.termid,1,2) = 35
+              and sg.storecode = 'Q1') cg
+                  on s.id = cg.studentid
+                  and regs.sectionid = cg.sectionid
+          where
+              substr(regs.termid,0,2) = 35
+              and nvl(c.sched_do_not_print,0) = 0
+              and nvl(cg.excludeCourse,0) = 0
+              and regs.DATELEFT >= SYSDATE
+          order by s.id, regs.DATEENROLLED, c.course_number
 			]]>
 		</sql>
 	</query>
-</queries>2F444
+</queries>
