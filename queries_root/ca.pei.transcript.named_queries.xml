@@ -101,11 +101,11 @@
 
 		<columns>
 			<column column="students.id">Transcript.Student_ID</column>
-      <column column="terms.lastday">Transcript.LastDay</column>
+      <column column="students.first_name">Transcript.LastDay</column>
 			<column column="storedgrades.credit_type">Transcript.Credit_Type</column>
 			<column column="storedgrades.Course_Number">Transcript.Course_Number</column>
 			<column column="storedgrades.Course_Name">Transcript.Course_Name</column>
-			<column column="storedgrades.earnedcrhrs">Transcript.EarnedCrHrs</column>
+			<column column="storedgrades.earnedcrhrs">Transcript.EawrnedCrHrs</column>
 			<column column="storedgrades.potentialcrhrs">Transcript.PotentialCrHrs</column>
 			<column column="storedgrades.grade">Transcript.Grade</column>
 		</columns>
@@ -114,8 +114,19 @@
 			<![CDATA[
 				select
 					s.id id,
-          t.lastday lastday,
-					sg.credit_type credit_type,
+          to_char(t.lastday,'yyyy/mm') as lastday,
+          case sg.credit_type 
+            when 'EN' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_EN]'
+            when 'FR' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_FR]'
+            when 'LA' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_LA]'
+            when 'MA' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_MA]'
+            when 'OP' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_OP]'
+            when 'SC' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SC]'
+            when 'SH' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]'
+            when 'SS' then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]'
+            when 'ESAP' then 'ESAP'
+            else '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ZZ]'
+          end as credit_type,
 					sg.course_number course_number,
 					sg.course_name course_name,
 					sg.earnedcrhrs earnedcrhrs,
@@ -154,40 +165,30 @@
 
 		<sql>
 			<![CDATA[
-				SELECT
-					s.id,
-					cc.course_number,
-					co.course_name,
-					case when t.abbreviation NOT IN ('S1','S2') and cc.schoolid <> 302 THEN 'FY' 
-							when cc.schoolid = 302 THEN 'Summer'
-					ELSE t.abbreviation END as term,
-					(t.yearid - 10) || '-' || (t.yearid - 9) as schoolYear,
-					nvl(cg.progressMark,'-') as progressMark
-        from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
-        join students s
+				select
+					s.id student_id,
+					cc.course_number course_number,
+					c.course_name course_name,
+					t.abbreviation term,
+					t.yearid school_year,
+				  sg.grade as currentgrade as grade
+				from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+				join students s
 					on s.dcid = sel.dcid
-				join cc 
-					on cc.studentid=s.id
-				join courses co 
-					on co.course_number = cc.course_number
-				join terms t on t.id = cc.termid and t.schoolid = cc.schoolid
-				join u_def_ext_students stuext
-					on stuext.studentsdcid = s.dcid
-				left join (
-					select
-							sg.studentid as sid,
-							sg.sectionid as secid,
-							sg.grade as progressMark
-					from storedgrades sg
-					join terms t on t.id = sg.termid and t.schoolid = t.schoolid
-					where t.lastday-15 > sg.datestored and t.lastday-15 > SYSDATE) cg
-					on cg.sid = s.id and cg.secid = cc.sectionid
-				where 
-					cc.termid > 0
-					and t.lastday > SYSDATE
-					and s.grade_level >= 10
-				order by s.id, schoolYear, term ASC
+				join cc
+					on cc.studentid = s.id
+				join sections sec
+					on sec.id = cc.sectionid
+				join courses c
+					on c.course_number = sec.course_number
+					and c.schoolid = sec.schoolid
+				join terms t
+					on t.id = sec.termid
+          and t.schoolid = sec.schoolifd
+				where cc.sectionid > 0
+					and cc.enroll_status >= 0
+				order by s.id, nvl(sec.start_date, t.firstday), c.course_name
 			]]>
 		</sql>
 	</query>
-</queries>
+</queries>2F444

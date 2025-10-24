@@ -23,11 +23,16 @@
   </script>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/cssW" href="css/spinner.css">
+  <script>window.addEventListener('beforeprint', function (event) { window.scrollTo(0, 0) });</script>
 </head>
 <body>
-    <script>window.addEventListener('beforeprint', function (event) { window.scrollTo(0, 0) });</script>
-    <script>loadingDialog();</script>
-    <div id="overlay"><div class="spinner"></div><br/>Loading...</div>
+   <!-- Loading spinner -->
+   <div id="overlay">
+     <div class="spinner"></div>
+     <br/>
+     Loading...
+   </div>
+   <!-- -->
     ~[x:insertfile;/admin/pei_report_cards/instruction_template/instuctions.html]
    <script id="transcript" type="text/x-handlebars-template">
     {{#each students}}
@@ -112,7 +117,7 @@
             <tbody class="credits">
                 {{#each courses.opc }}
                     <tr>
-                        <td class="left">Out of Province</td>
+                        <td class="left">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_OP]</td>
                         <td class="left">{{ creditDate }}</td>
                         <td class="left">{{ number }}</td>
                         <td class="left">{{{ name }}}</td>
@@ -177,7 +182,7 @@
             <tbody class="totalcredits">
                 <tr class="totalcredits">
                 <td colspan="5"><strong>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.total_credits]</strong></td>
-                <td class="center"> {{ totalCredits }} </td>
+                <td class="center"> {{ total_credits }} </td>
             </tr>
             </tbody>
         </table>
@@ -370,180 +375,193 @@
    <div id="output"></div>
    <script>
    
-        const fadeOutEffect = () => {
-          let fadeTarget = document.getElementById("overlay");
-          let fadeEffect = setInterval(function () {
-              if (!fadeTarget.style.opacity) {
-                  fadeTarget.style.opacity = .8;
-              }
-              if (fadeTarget.style.opacity > 0) {
-                  fadeTarget.style.opacity -= 0.1;
+      const fadeOutEffect = () => {
+        let fadeTarget = document.getElementById("overlay");
+        let fadeEffect = setInterval(function () {
+            if (!fadeTarget.style.opacity) {
+                fadeTarget.style.opacity = .8;
+            }
+            if (fadeTarget.style.opacity > 0) {
+                fadeTarget.style.opacity -= 0.1;
+            } else {
+                clearInterval(fadeEffect);
+            }
+        }, 200);
+      }
+
+      hbs.registerHelper("round", function(mark) {
+          return mark == '' ? mark : isNaN(mark) ? mark : Math.round(parseFloat(mark));
+      });
+      
+      hbs.registerHelper("pad", function(credit) {
+          if (isNaN(credit)) {
+              return credit
+          } else {
+              credit = parseInt(credit);
+              return credit.toFixed(2);
+          }
+      });
+  
+      const source = document.getElementById('transcript').innerHTML;
+      const template = hbs.compile(source);
+      
+      const adps = [
+        "No ADP - DO NOT PRINT. CLEAR ADP CERTIFICATE",
+        "Agriculture & Bioscience: Agriculture",
+        "Agriculture & Bioscience: Bioscience",
+        "Arts & Culture: Digital Arts",
+        "Arts & Culture: Culinary Arts",
+        "Arts & Culture: Music",
+        "Arts & Culture: Performing Arts",
+        "Arts & Culture: Stage & Technical",
+        "Arts & Culture: Visual Arts",
+        "Business & Innovation: Business Studies",
+        "Business & Innovation: Computer Studies",
+        "Business & Innovation: Design & Visual Arts",
+        "Business & Innovation: Hospitality & Tourism",
+        "Business & Innovation: Health & Wellness",
+        "Business & Innovation: Fisheries & Aquaculture",
+        "Travel & Tourism: Culinary",
+        "Travel & Tourism: Travel",
+        "Travel & Tourism: Hospitality",
+        "Travel & Tourism: Attractions",
+        "Health & Wellness: Food & Nutrition",
+        "Health & Wellness: Health Care",
+        "Health & Wellness: Lifestyle & Sustainability",
+        "Aviation & Aerospace",
+        "Marine Biology"
+      ];
+      
+      const dataUrl = `json/transcript.json?dothisfor=${reportconfig.dothisfor}&ccmarks=${reportconfig.ccMarks}`;
+
+      const process = (students, credits) => {
+          
+          students.forEach((student) => {
+            student.courses = {
+                opc: [],
+                esap: [],
+                completed: [],
+                attempted: []
+            };
+              if (parseInt(student.adp) > 0) {
+                student.adpCertificate = adps[parseInt(student.adp)]
               } else {
-                  clearInterval(fadeEffect);
+                delete student.adp;
               }
-          }, 200);
+              if (student.esapSelection === 'None' || student.esapSelection === 'ESAP Workplace Entry') {
+                delete student.esapSelection
+              }
+
+              /*
+              student.currentCourses.pop();
+              student.currentCourses.forEach((course) => {
+                  if (course.number === 'EPS800J') {
+                      if (student.esapSelection) {
+                          //course.name += ` (${student.esapSelection.substr(9)})`;
+                          course.name += '*';
+                      }
+                  }
+              })
+              */
+
+              student.rawCourses = credits.filter( (course) => course.student_id === student.student_id );
+              student.total_credits = 0;
+              student.rawCourses.forEach((course) => {
+                  student.total_credits += isNaN(parseFloat(course.earnedcrhrs)) ? 0 : parseFloat(course.earnedcrhrs);
+                  if (course.course_number.substr(0,3) == 'OPC') {
+                      student.courses.opc.push(course);
+                  } else if (course.subject === 'ESAP') {
+                      if (course.course_number === 'EPS800J') {
+                          if (student.esap_selection) {
+                              //course.name += ` (${student.esapSelection.substr(9)})`;
+                              course.name += '*';
+                          }
+                      }
+                      student.courses.esap.push(course);
+                  } else if (course.potentialcrhrs === course.earnedcrhrs) {
+                      student.courses.completed.push(course)
+                  } else {
+                      student.courses.attempted.push(course)
+                  }
+                  
+              })
+
+          });
+          console.log(students);
+          return students
+          
+      }
+      
+    /* const populate = async (url) => {
+          const response = await fetch(url)
+          const results = await response.json()
+          const processedStudents = process(results)
+          const outputData = { reportconfig: reportconfig, students: processedStudents }
+          const output = document.getElementById('output')
+          output.innerHTML = template(outputData)
+          const overlay = document.getElementById('overlay')
+          fadeOutEffect();
+          closeLoading();
+      }
+      
+      populate(dataUrl);*/
+      
+    const renderChunks = (students, chunkSize = 25) => {
+        const output = document.getElementById('output');
+        output.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < students.length; i += chunkSize) {
+            const chunk = students.slice(i, i + chunkSize);
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = template({ reportconfig, students: chunk });
+            fragment.append(...wrapper.children);
         }
 
-        hbs.registerHelper("round", function(mark) {
-            return mark == '' ? mark : isNaN(mark) ? mark : Math.round(parseFloat(mark));
-        });
-        
-        hbs.registerHelper("pad", function(credit) {
-            if (isNaN(credit)) {
-                return credit
-            } else {
-                credit = parseInt(credit);
-                return credit.toFixed(2);
-            }
-        });
-   
-       const source = document.getElementById('transcript').innerHTML;
-       const template = hbs.compile(source);
-       
-       const adps = [
-          "No ADP - DO NOT PRINT. CLEAR ADP CERTIFICATE",
-          "Agriculture & Bioscience: Agriculture",
-          "Agriculture & Bioscience: Bioscience",
-          "Arts & Culture: Digital Arts",
-          "Arts & Culture: Culinary Arts",
-          "Arts & Culture: Music",
-          "Arts & Culture: Performing Arts",
-          "Arts & Culture: Stage & Technical",
-          "Arts & Culture: Visual Arts",
-          "Business & Innovation: Business Studies",
-          "Business & Innovation: Computer Studies",
-          "Business & Innovation: Design & Visual Arts",
-          "Business & Innovation: Hospitality & Tourism",
-          "Business & Innovation: Health & Wellness",
-          "Business & Innovation: Fisheries & Aquaculture",
-          "Travel & Tourism: Culinary",
-          "Travel & Tourism: Travel",
-          "Travel & Tourism: Hospitality",
-          "Travel & Tourism: Attractions",
-          "Health & Wellness: Food & Nutrition",
-          "Health & Wellness: Health Care",
-          "Health & Wellness: Lifestyle & Sustainability",
-          "Aviation & Aerospace",
-          "Marine Biology"
-        ];
-        
-       const dataUrl = `json/transcript.json?dothisfor=${reportconfig.dothisfor}&ccmarks=${reportconfig.ccMarks}`;
+        output.append(fragment);
+      };
+      
+      $j(function() {
+          async function getData() {
+            const studentPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1000", {
+                      method: 'POST',
+                      credentials: 'same-origin',
+                      headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                      },
+                      body:""});
 
-       const process = (students, credits) => {
-           
-           students.forEach((student) => {
-              student.courses = {
-                  opc: [],
-                  esap: [],
-                  completed: [],
-                  attempted: []
-              };
-               if (parseInt(student.adp) > 0) {
-                  student.adpCertificate = adps[parseInt(student.adp)]
-               } else {
-                  delete student.adp;
-               }
-               if (student.esapSelection === 'None' || student.esapSelection === 'ESAP Workplace Entry') {
-                  delete student.esapSelection
-               }
+            const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=10000", {
+                      method: 'POST',
+                      credentials: 'same-origin',
+                      headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                      },
+                      body:""});
 
-               /*
-                student.currentCourses.pop();
-                student.currentCourses.forEach((course) => {
-                    if (course.number === 'EPS800J') {
-                        if (student.esapSelection) {
-                            //course.name += ` (${student.esapSelection.substr(9)})`;
-                            course.name += '*';
-                        }
-                    }
-                })
-                */
+            Promise.all([studentPromise, creditsPromise]).then(responses => Promise.all(responses.map(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            }))).then(data => {
+              console.log(data);
+              const students = data[0].record;
+              const credits = data[1].record;
+              const processedStudents = process(students, credits);
+              renderChunks(processedStudents, 25);
+              fadeOutEffect();
+              closeLoading();
+            }).catch(error => {
+              console.error('Error fetching data:', error);
+            });
 
-                student.rawCourses = credits.filter( (course) => course.student_id === student.student_id );
-                student.rawCourses.forEach((course) => {
-                    if (course.course_number.substr(0,3) == 'OPC') {
-                        student.courses.opc.push(course);
-                    } else if (course.subject === 'ESAP') {
-                        if (course.course_number === 'EPS800J') {
-                            if (student.esap_selection) {
-                                //course.name += ` (${student.esapSelection.substr(9)})`;
-                                course.name += '*';
-                            }
-                        }
-                        student.courses.esap.push(course);
-                    } else if (course.potentialcrhrs === course.earnedcrhrs) {
-                        student.courses.completed.push(course)
-                    } else {
-                        student.courses.attempted.push(course)
-                    }
-                    
-                })
+          }
 
-           });
-           console.log(students);
-           return students
-           
-       }
-       
-      /* const populate = async (url) => {
-           const response = await fetch(url)
-           const results = await response.json()
-           const processedStudents = process(results)
-           const outputData = { reportconfig: reportconfig, students: processedStudents }
-           const output = document.getElementById('output')
-           output.innerHTML = template(outputData)
-           const overlay = document.getElementById('overlay')
-           fadeOutEffect();
-           closeLoading();
-       }
-       
-       populate(dataUrl);*/
-       
-       
-        $j(function() {
-            async function getData() {
-              const studentPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1000", {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                        },
-                        body:""});
-
-              const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=10000", {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                        },
-                        body:""});
-
-              Promise.all([studentPromise, creditsPromise]).then(responses => Promise.all(responses.map(response => {
-                if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-              }))).then(data => {
-                console.log(data);
-                const students = data[0].record;
-                const credits = data[1].record;
-                const processedStudents = process(students, credits);
-                const outputData = { reportconfig: reportconfig, students: processedStudents }
-                const output = document.getElementById('output')
-                output.innerHTML = template(outputData)
-                const overlay = document.getElementById('overlay')
-                fadeOutEffect();
-                closeLoading();
-              }).catch(error => {
-                console.error('Error fetching data:', error);
-              });
-
-            }
-
-            getData();
-        });
+          getData();
+      });
    </script> 
 </body>
 </html>
