@@ -3,9 +3,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         description="Generates official PEI Student Transcripts"
         name="PEI Transcript"
-        version="2024.11.0"
+        version="2025.10.3"
         xsi:schemaLocation="http://plugin.powerschool.pearson.com plugin.xsd">
-<publisher name="Department of Education and Lifelong Learning - Luke Walker">
-  <contact email="lawalker@gov.pe.ca"/>
-</publisher>
-</plugin>
+  <publisher name="Department of Education and Lifelong Learning - Luke Walker">
+    <contact email="lawalker@gov.pe.ca"/>
+  </publisher>
+</plugin> 

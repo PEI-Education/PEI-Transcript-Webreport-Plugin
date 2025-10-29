@@ -1,0 +1,7 @@
+ <permission_mappings>
+    <permission name='/admin/pei_transcript/pei_transcript_prefs.html'>
+      <implies allow="post">/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data</implies>
+      <implies allow="post">/ws/schema/query/ca.pei.reporting.transcript.current_courses</implies>
+      <implies allow="post">/ws/schema/query/ca.pei.reporting.transcript.historical_grades</implies>
+    </permission>
+  </permission_mappings>
