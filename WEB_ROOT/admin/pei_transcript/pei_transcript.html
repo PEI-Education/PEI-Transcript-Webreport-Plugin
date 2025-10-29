@@ -609,11 +609,6 @@
                         "storecode": "~(gpv.ccmarks)"
                       })
             });
-                      body: JSON.stringify({
-                        "curyearid": ~(curyearid),
-                        "storecode": "~(gpv.ccmarks)"
-                      })
-            });
 
             Promise.all([studentPromise, creditsPromise, currentCoursesPromise]).then(responses => Promise.all(responses.map(response => {
               if (!response.ok) {
