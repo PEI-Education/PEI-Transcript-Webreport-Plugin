@@ -582,11 +582,6 @@
                         "curschoolid": ~(curschoolid)
                       })
              });
-                      body: JSON.stringify({
-                        "curyearid": ~(curyearid),
-                        "curschoolid": ~(curschoolid)
-                      })
-             });
 
             const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
             const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
