@@ -2,6 +2,10 @@
   <query name="ca.pei.reporting.transcript.get_demographic_data" coreTable="students" flattened="true" tags="transcript">
     <summary>Student transcript data</summary>
     <description>Retrieves all data necessary to generate a PEI student transcript.</description>
+    <args>
+      <arg name="curyearid" column="ps_schoolenrollment.yearid" required="true" description="ID of the current year" default="~(curyearid)"/>
+      <arg name="curschoolid" column="ps_schoolenrollment.schoolid" required="true" description="ID of the current school" default="~(curschoolid)"/>
+    </args>
 		<columns>
 			<column column="studentcorefields.pscore_legal_last_name">Transcript.Legal_Last_Name</column>
 			<column column="studentcorefields.pscore_legal_first_name">Transcript.Legal_First_Name</column>
@@ -38,14 +42,14 @@
           scf.pscore_legal_first_name legal_first_name,
           scf.pscore_legal_middle_name legal_middle_name,
           
-          s.dcid dcid,
-          s.first_name first_name,
-          s.middle_name middle_name,
-          s.last_name last_name,
-          to_char(s.dob, 'YYYY-MM-DD') dob,
-          s.id id,
-          s.student_number student_number,
-          s.home_room homeroom,
+          students.dcid dcid,
+          students.first_name first_name,
+          students.middle_name middle_name,
+          students.last_name last_name,
+          to_char(students.dob, 'MM/DD/YYYY') dob,
+          students.id id,
+          students.student_number student_number,
+          students.home_room homeroom,
           
           se.schoolid schoolid,
           sch.name schname,
@@ -70,28 +74,28 @@
              on GEN.id = esap.programid
            where
            gen.name = 'Essential Skills Achievement Pathway'
-             and esap.studentid = s.id
+             and esap.studentid = students.id
              and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
          ) as esap,
-          nvl(code.displayvalue, 'None') esapSelection
-      from  (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
-      join students s
-              on s.dcid = sel.dcid
+          nvl(code.displayvalue, 'None') esap_selection
+			from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+      join students students
+              on students.dcid = sel.dcid
       join studentcorefields scf
-              on scf.studentsdcid = s.dcid
+              on scf.studentsdcid = students.dcid
       join ps_schoolenrollment se
-              on se.studentid = s.id
-              and se.yearid = 35
-              and se.schoolid = 310
+              on se.studentid = students.id
+              and se.yearid = :curyearid
+              and se.schoolid = :curschoolid
       join schools sch
-              on sch.school_number = s.schoolid
+              on sch.school_number = students.schoolid
       join u_def_ext_schools schdyn
               on schdyn.schoolsdcid = sch.dcid
       join u_def_ext_students stuext
-              on stuext.studentsdcid = s.dcid
+              on stuext.studentsdcid = students.dcid
       left join codeset code
            on code.code = stuext.pei_esap
-      order by s.last_name, s.first_name
+      order by students.lastfirst
     ]]></sql>
   </query>
 
@@ -105,14 +109,14 @@
 			<column column="storedgrades.credit_type">Transcript.Credit_Type</column>
 			<column column="storedgrades.Course_Number">Transcript.Course_Number</column>
 			<column column="storedgrades.Course_Name">Transcript.Course_Name</column>
-			<column column="storedgrades.earnedcrhrs">Transcript.EawrnedCrHrs</column>
+			<column column="storedgrades.earnedcrhrs">Transcript.EarnedCrHrs</column>
 			<column column="storedgrades.potentialcrhrs">Transcript.PotentialCrHrs</column>
 			<column column="storedgrades.grade">Transcript.Grade</column>
 		</columns>
 
 		<sql>
 			<![CDATA[
-				select
+			select
 					s.id id,
           to_char(t.lastday,'yyyy/mm') as lastday,
           case sg.credit_type 
@@ -127,7 +131,7 @@
             when 'ESAP' then 'ESAP'
             else '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ZZ]'
           end as credit_type,
-					sg.course_number course_number,
+					coalesce(sg.course_number, 'MISSING') course_number,
 					sg.course_name course_name,
 					sg.earnedcrhrs earnedcrhrs,
 					sg.potentialcrhrs potentialcrhrs,
@@ -151,6 +155,11 @@
 	<query name="ca.pei.reporting.transcript.current_courses" coreTable="cc" flattened="true">
 
 		<description>Transcript data export - current courses</description>
+
+    <args>
+      <arg name="curyearid" type="primitive" required="true" column="ps_schoolenrollment.yearid" description="Current school year" default="~(curyearid)" />
+      <arg name="storecode" type="primitive" required="true" description="Store code for current grades" />
+    </args>
 
 		<columns>
 			<column column="students.id">Transcript.Student_ID</column>
@@ -186,12 +195,12 @@
                   nvl(sg.excludefromtranscripts,0) excludeCourse 
               from storedgrades sg 
               where 1=1
-              and substr(sg.termid,1,2) = 35
-              and sg.storecode = 'Q1') cg
+              and substr(sg.termid,1,2) = :curyearid
+              and sg.storecode = :storecode) cg
                   on s.id = cg.studentid
                   and regs.sectionid = cg.sectionid
           where
-              substr(regs.termid,0,2) = 35
+              substr(regs.termid,0,2) = :curyearid
               and nvl(c.sched_do_not_print,0) = 0
               and nvl(cg.excludeCourse,0) = 0
               and regs.DATELEFT >= SYSDATE

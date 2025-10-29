@@ -44,14 +44,14 @@
           <tr>
             <td>~[text:psx.html.admin_reports.studschedmatrixprefs.sort_order]</td>
             <td>
-              <input type="radio" id="sortname" name="[prefschool]report_card_sort"
-                  value="lastfirst,gt,grade_level,gt">
+              <input type="radio" id="sortname" name="order"
+                  value="transcript.last_name,transcript.first_name">
               <label for="sortname">~[text:psx.html.admin_reports.studschedmatrixprefs.last_name]</label><br>
-              <input type="radio" id="sortgrade" name="[prefschool]report_card_sort"
-                  value="grade_level,gt,lastfirst,gt">
+              <input type="radio" id="sortgrade" name="order"
+                  value="transcript.grade_level,transcript.last_name,transcript.first_name">
               <label for="sortgrade">~[text:psx.html.admin_reports.studschedmatrixprefs.grade_level]</label><br>
-              <input type="radio" id="sorthomeroom" name="[prefschool]report_card_sort"
-                  value="home_room,gt,lastfirst,gt" checked>
+              <input type="radio" id="sorthomeroom" name="order"
+                  value="transcript.homeroom,transcript.last_name,transcript.first_name" checked>
               <label for="sorthomeroom">~[text:psx.html.admin_reports.studschedmatrixprefs.homeroom]</label><br>
               <input type="checkbox" id="printHR" name="printHR" value="hr">
               <label for="printHR">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.homeroom]</label>
