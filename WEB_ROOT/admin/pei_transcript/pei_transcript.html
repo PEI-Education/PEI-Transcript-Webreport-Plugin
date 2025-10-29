@@ -17,6 +17,7 @@
         sigRole: "~(gpv.sigrole)",
         sigDate: "~(gpv.printdate)",
         order: "~(gpv.order)"
+        order: "~(gpv.order)"
     }
     if ('~(gpv.printHR)' === 'hr') {
         reportconfig.printHR = 'hr';
@@ -24,15 +25,21 @@
   </script>
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <link rel="stylesheet" type="text/css" href="css/spinner.css">
+  <link rel="stylesheet" type="text/css" href="css/spinner.css">
   <script>window.addEventListener('beforeprint', function (event) { window.scrollTo(0, 0) });</script>
 </head>
 <body>
    <!-- Loading spinner -->
    <div id="overlay" class="noprint">
      <div class="loader"></div> 
+   <div id="overlay" class="noprint">
+     <div class="loader"></div> 
    </div>
    <!-- -->
     ~[x:insertfile;/admin/pei_report_cards/instruction_template/instuctions.html]
+    <div class="feedback-alert" class="noprint" style="display: none;" id="errorContainr"><strong>The following transcripts contain errors:</strong>
+      <ul id="errormsgs"></ul>
+    </div>
    <script id="transcript" type="text/x-handlebars-template">
     {{#each students}}
       <div id="~(id)" class="page">
@@ -122,6 +129,11 @@
                         <td class="left">{{{ course_name }}}</td>
                         <td class="center">{{round grade }}</td>
                         <td class="center">{{pad earnedcrhrs }}</td>
+                        <td class="left">{{ lastday }}</td>
+                        <td class="left">{{ course_number }}</td>
+                        <td class="left">{{{ course_name }}}</td>
+                        <td class="center">{{round grade }}</td>
+                        <td class="center">{{pad earnedcrhrs }}</td>
                     </tr>
                 {{/each }}
             </tbody>
@@ -133,7 +145,12 @@
                             <td class="left">{{ lastday }}</td>
                             <td class="left">{{ course_number }}</td>
                             <td class="left">{{{ course_name }}}</td>
+                            <td class="left">{{ credit_type }}</td>
+                            <td class="left">{{ lastday }}</td>
+                            <td class="left">{{ course_number }}</td>
+                            <td class="left">{{{ course_name }}}</td>
                             <td class="center">{{round grade }}</td>
+                            <td class="center">{{pad earnedcrhrs }}</td>
                             <td class="center">{{pad earnedcrhrs }}</td>
                         </tr>
                     {{/each }}
@@ -146,7 +163,12 @@
                         <td class="left">{{ lastday }}</td>
                         <td class="left">{{ course_number }}</td>
                         <td class="left">{{{ course_name }}}</td>
+                        <td class="left">{{ credit_type }}</td>
+                        <td class="left">{{ lastday }}</td>
+                        <td class="left">{{ course_number }}</td>
+                        <td class="left">{{{ course_name }}}</td>
                         <td class="center">{{round grade }}</td>
+                        <td class="center">{{pad earnedcrhrs }}</td>
                         <td class="center">{{pad earnedcrhrs }}</td>
                     </tr>
                 {{/each }}
@@ -158,7 +180,11 @@
                         <td class="left">{{ lastday }}</td>
                         <td class="left">{{ course_number }}</td>
                         <td class="left">{{{ course_name }}}</td>
+                        <td class="left">{{ lastday }}</td>
+                        <td class="left">{{ course_number }}</td>
+                        <td class="left">{{{ course_name }}}</td>
                         <td class="center">{{round grade }}</td>
+                        <td class="center">{{pad earnedcrhrs }}</td>
                         <td class="center">{{pad earnedcrhrs }}</td>
                     </tr>
                 {{/each }}
@@ -176,6 +202,11 @@
                             {{else}}
                               <td class="center">-</td>
                             {{/if}}
+                            {{#if grade }}
+                              <td class="center">{{round grade }}</td>
+                            {{else}}
+                              <td class="center">-</td>
+                            {{/if}}
                             <td class="center">-</td> 
                         </tr>
                     {{/each}}
@@ -184,6 +215,8 @@
            
             <tbody class="totalcredits">
                 <tr class="totalcredits">
+                <td colspan="5">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.total_credits]</td>
+                <td class="center"> {{pad total_credits }} </td>
                 <td colspan="5">~[text:psx.htmlc.admin_pei_transcript.pei_transcript.total_credits]</td>
                 <td class="center"> {{pad total_credits }} </td>
             </tr>
@@ -233,6 +266,7 @@
           <div class="footer3">
             <div class="footer3-left"><strong>Version 2025.10</strong></div>
             <div class="footer3-center">{{ last_name }}, {{ first_name }} ({{ student_number }})</div>
+            <div class="footer3-right">{{#if ../reportconfig.printHR }}<strong>Homerooom:</strong> {{homeroom}}{{ else }}~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]{{/if}}</div>
             <div class="footer3-right">{{#if ../reportconfig.printHR }}<strong>Homerooom:</strong> {{homeroom}}{{ else }}~[text:psx.htmlc.admin_pei_transcript.pei_transcript.see_reverse]{{/if}}</div>
           </div>
         </div>
@@ -408,6 +442,7 @@
       const source = document.getElementById('transcript').innerHTML;
       const template = hbs.compile(source);
 
+
       const adps = [
         "No ADP - DO NOT PRINT. CLEAR ADP CERTIFICATE",
         "Agriculture & Bioscience: Agriculture",
@@ -436,6 +471,7 @@
       ];
       
       const process = (students, credits, currentCourses) => {
+      const process = (students, credits, currentCourses) => {
           
           students.forEach((student) => {
             student.courses = {
@@ -453,7 +489,15 @@
             }
             if (student.esap_selection === 'None' || student.esap_selection === 'ESAP Workplace Entry') {
               delete student.esap_selection
+            if (student.esap_selection === 'None' || student.esap_selection === 'ESAP Workplace Entry') {
+              delete student.esap_selection
             }
+            if (student.french_certificate === "0"){
+                delete student.french_certificate;
+            }
+            
+
+            student.currentCourses = currentCourses.filter( (course) => course.student_id === student.student_id);
             if (student.french_certificate === "0"){
                 delete student.french_certificate;
             }
@@ -468,11 +512,14 @@
                   }
                 }
             });
+            });
 
             student.rawCourses = credits.filter( (course) => course.student_id === student.student_id );
             student.rawCourses.forEach((course) => {
               student.total_credits += parseFloat(course.earnedcrhrs);
+              student.total_credits += parseFloat(course.earnedcrhrs);
               if (course.course_number.substr(0,3) == 'OPC') {
+                student.courses.opc.push(course);
                 student.courses.opc.push(course);
               } else if (course.subject === 'ESAP') {
                 if (course.course_number === 'EPS800J') {
@@ -484,10 +531,22 @@
                 student.courses.esap.push(course);
               } else if (parseInt(course.potentialcrhrs) === parseInt(course.earnedcrhrs)) {
                 student.courses.completed.push(course)
+                if (course.course_number === 'EPS800J') {
+                  if (student.esap_selection) {
+                      //course.name += ` (${student.esapSelection.substr(9)})`;
+                      course.name += '*';
+                  }
+                }
+                student.courses.esap.push(course);
+              } else if (parseInt(course.potentialcrhrs) === parseInt(course.earnedcrhrs)) {
+                student.courses.completed.push(course)
               } else {
+                student.courses.attempted.push(course)
                 student.courses.attempted.push(course)
               }
                   
+            });
+            delete student.rawCourses;
             });
             delete student.rawCourses;
           });
@@ -515,6 +574,9 @@
               const studentPromise = await fetch(`/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
                         method: 'POST',
                         credentials: 'same-origin',
+              const studentPromise = await fetch(`/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
+                        method: 'POST',
+                        credentials: 'same-origin',
                       headers: {
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
@@ -524,7 +586,13 @@
                         "curschoolid": ~(curschoolid)
                       })
              });
+                      body: JSON.stringify({
+                        "curyearid": ~(curyearid),
+                        "curschoolid": ~(curschoolid)
+                      })
+             });
 
+            const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
             const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
                       method: 'POST',
                       credentials: 'same-origin',
@@ -534,7 +602,10 @@
                       },
                       body: JSON.stringify({})
             });
+                      body: JSON.stringify({})
+            });
             
+            const currentCoursesPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=12000", {
             const currentCoursesPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=12000", {
                       method: 'POST',
                       credentials: 'same-origin',
@@ -542,6 +613,11 @@
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
                       },
+                      body: JSON.stringify({
+                        "curyearid": ~(curyearid),
+                        "storecode": "~(gpv.ccmarks)"
+                      })
+            });
                       body: JSON.stringify({
                         "curyearid": ~(curyearid),
                         "storecode": "~(gpv.ccmarks)"
@@ -557,6 +633,7 @@
               const students = data[0].record;
               const credits = data[1].record;
               const currentCourses = data[2].record;
+              
               
               const processedStudents = process(students, credits, currentCourses);
               renderChunks(processedStudents, 25);
