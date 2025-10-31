@@ -173,8 +173,8 @@
           select
             s.id student_id,
             case
-                when regs.DATEENROLLED <= SYSDATE then 'In Progress'
-                when regs.DATEENROLLED > SYSDATE then 'Next Semester'
+                when regs.DATEENROLLED <= SYSDATE then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.in_progress]'
+                when regs.DATEENROLLED > SYSDATE then '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.next_semester]'
             end as status,
             regs.course_number course_number,
             c.course_name course_name,
