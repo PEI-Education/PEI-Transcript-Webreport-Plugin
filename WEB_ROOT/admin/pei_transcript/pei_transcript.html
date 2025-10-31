@@ -520,7 +520,6 @@
                       'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                        "curyearid": ~(curyearid),
                         "curschoolid": ~(curschoolid)
                       })
              });
@@ -556,7 +555,7 @@
             }))).then(data => {
               const students = data[0].record;
               const credits = data[1].record;
-              const currentCourses = data[2].record;
+              const currentCourses = data[2]?.record || [];
               
               const processedStudents = process(students, credits, currentCourses);
               renderChunks(processedStudents, 25);

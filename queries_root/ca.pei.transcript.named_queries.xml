@@ -3,7 +3,6 @@
     <summary>Student transcript data</summary>
     <description>Retrieves all data necessary to generate a PEI student transcript.</description>
     <args>
-      <arg name="curyearid" column="ps_schoolenrollment.yearid" required="true" description="ID of the current year" default="~(curyearid)"/>
       <arg name="curschoolid" column="ps_schoolenrollment.schoolid" required="true" description="ID of the current school" default="~(curschoolid)"/>
     </args>
 		<columns>
@@ -37,11 +36,10 @@
 		</columns>
 
     <sql><![CDATA[
-        select
+      select
           scf.pscore_legal_last_name legal_last_name,
           scf.pscore_legal_first_name legal_first_name,
           scf.pscore_legal_middle_name legal_middle_name,
-          
           students.dcid dcid,
           students.first_name first_name,
           students.middle_name middle_name,
@@ -50,12 +48,12 @@
           students.id id,
           students.student_number student_number,
           students.home_room homeroom,
-          
+
           se.schoolid schoolid,
           sch.name schname,
           sch.schooladdress schaddress,
           sch.schoolcity schcity,
-          sch.schoolstate schtate,
+          sch.schoolstate schstate,
           sch.schoolzip schzip,
           sch.schoolphone schphone,
           
@@ -67,34 +65,35 @@
           stuext.pei_adpcertificate adp,
           stuext.pei_frenchcertificate french_certificate,
           stuext.pei_ib ib,
-           (select distinct
-             case when gen.name = 'Essential Skills Achievement Pathway' then 1 else null end
-           from SPEnrollments esap
-           join GEN
-             on GEN.id = esap.programid
-           where
-           gen.name = 'Essential Skills Achievement Pathway'
-             and esap.studentid = students.id
-             and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
-         ) as esap,
+          (select distinct
+            case when gen.name = 'Essential Skills Achievement Pathway' then 1 else null end
+          from SPEnrollments esap
+          join GEN
+            on GEN.id = esap.programid
+          where
+            gen.name = 'Essential Skills Achievement Pathway'
+            and esap.studentid = students.id
+          and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
+          ) as esap,
           nvl(code.displayvalue, 'None') esap_selection
-			from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+          
+      from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
       join students students
-              on students.dcid = sel.dcid
+          on students.dcid = sel.dcid
       join studentcorefields scf
-              on scf.studentsdcid = students.dcid
-      join ps_schoolenrollment se
-              on se.studentid = students.id
-              and se.yearid = :curyearid
-              and se.schoolid = :curschoolid
+          on scf.studentsdcid = students.dcid
+      left join (select studentid, schoolid, row_number() over (partition by studentid order by yearid) as rn from ps_schoolenrollment where schoolid = :curschoolid) se 
+          on se.studentid = students.id
+          and se.rn = 1
       join schools sch
-              on sch.school_number = students.schoolid
+            on sch.school_number = se.schoolid
       join u_def_ext_schools schdyn
-              on schdyn.schoolsdcid = sch.dcid
+            on schdyn.schoolsdcid = sch.dcid
       join u_def_ext_students stuext
-              on stuext.studentsdcid = students.dcid
+            on stuext.studentsdcid = students.dcid
       left join codeset code
-           on code.code = stuext.pei_esap
+        on code.code = stuext.pei_esap
+      where se.rn = 1
       order by students.lastfirst
     ]]></sql>
   </query>

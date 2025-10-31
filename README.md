@@ -16,6 +16,7 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 
 ## Release History
 
+* v2025.10.4 - Fixed issue where archived students were not displaying
 * v2025.10.3 - Migrated data request to PowerQuery
 * v2024.11 - Updated to better highlight ESAP & to include new grad reqs
 * v2024.10 - Updated pagenavigation for report card changes
