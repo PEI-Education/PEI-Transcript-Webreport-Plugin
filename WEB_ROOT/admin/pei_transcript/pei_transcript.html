@@ -171,8 +171,8 @@
                             <td class="left"></td>
                             <td class="left">{{ course_number }}</td>
                             <td class="left">{{{ course_name }}}</td>
-                            {{#if grade }}
-                              <td class="center">{{round grade }}</td>
+                            {{#if current_grade }}
+                              <td class="center">{{round current_grade }}</td>
                             {{else}}
                               <td class="center">-</td>
                             {{/if}}
@@ -378,18 +378,11 @@
    <div id="output"></div>
    <script>
    
-      const fadeOutEffect = () => {
-        let fadeTarget = document.getElementById("overlay");
-        let fadeEffect = setInterval(function () {
-            if (!fadeTarget.style.opacity) {
-                fadeTarget.style.opacity = .8;
-            }
-            if (fadeTarget.style.opacity > 0) {
-                fadeTarget.style.opacity -= 0.1;
-            } else {
-                clearInterval(fadeEffect);
-            }
-        }, 200);
+      const hideLoader = () => {
+        const loader = document.querySelector('.loader');
+        loader.classList.add('loader-hidden');
+        const overlay = document.querySelector('#overlay');
+        overlay.remove();
       }
 
       hbs.registerHelper("round", function(mark) {
@@ -559,8 +552,7 @@
               
               const processedStudents = process(students, credits, currentCourses);
               renderChunks(processedStudents, 25);
-              fadeOutEffect();
-              closeLoading();
+              hideLoader();
             }).catch(error => {
               console.error('Error fetching data:', error);
             });
