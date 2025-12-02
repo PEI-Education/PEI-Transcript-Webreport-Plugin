@@ -1,6 +1,6 @@
 <queries>
   <query name="ca.pei.reporting.transcript.get_demographic_data" coreTable="students" flattened="true" tags="transcript">
-    <summary>Student transcript data</summary>
+    <summary>PEI Transcript: Student Details</summary>
     <description>Retrieves all data necessary to generate a PEI student transcript.</description>
     <args>
       <arg name="curschoolid" column="ps_schoolenrollment.schoolid" required="true" description="ID of the current school" default="~(curschoolid)"/>
@@ -99,7 +99,7 @@
   </query>
 
   <query name="ca.pei.reporting.transcript.historical_grades" coreTable="StoredGrades" flattened="true">
-
+    <summary>PEI Transcript: Historical Student Grades</summary>
 		<description>Transcript data export - student grades</description>
 
 		<columns>
@@ -152,12 +152,12 @@
 	</query>
 
 	<query name="ca.pei.reporting.transcript.current_courses" coreTable="cc" flattened="true">
-
+    <summary>PEI Transcript: Current Student Courses</summary>
 		<description>Transcript data export - current courses</description>
 
     <args>
-      <arg name="curyearid" type="primitive" required="true" column="ps_schoolenrollment.yearid" description="Current school year" default="~(curyearid)" />
-      <arg name="storecode" type="primitive" required="true" description="Store code for current grades" />
+      <arg name="curyearid" type="primitive" required="true" column="ps_schoolenrollment.yearid" description="Current school year" />
+      <arg name="storecode" type="primitive" required="true" column="sg.storecode" description="Store code for current grades" />
     </args>
 
 		<columns>

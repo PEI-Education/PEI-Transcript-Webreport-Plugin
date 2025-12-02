@@ -35,6 +35,7 @@ button {
     radial-gradient(35% 146% at 50% -59%,var(--c)) 100% 100%;
   background-size: calc(200%/3) 50%;
   background-repeat: repeat-x;
+  mask-webkit-mask: repeating-linear-gradient(90deg,#000 0 10%,#0000 0 20%);
   -webkit-mask: repeating-linear-gradient(90deg,#000 0 10%,#0000 0 20%);
   animation: l12 .8s infinite linear;
 }

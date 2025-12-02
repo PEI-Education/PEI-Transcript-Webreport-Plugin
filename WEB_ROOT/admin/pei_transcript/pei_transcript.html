@@ -171,8 +171,8 @@
                             <td class="left"></td>
                             <td class="left">{{ course_number }}</td>
                             <td class="left">{{{ course_name }}}</td>
-                            {{#if grade }}
-                              <td class="center">{{round grade }}</td>
+                            {{#if current_grade }}
+                              <td class="center">{{round current_grade }}</td>
                             {{else}}
                               <td class="center">-</td>
                             {{/if}}
@@ -378,19 +378,6 @@
    <div id="output"></div>
    <script>
    
-      const fadeOutEffect = () => {
-        let fadeTarget = document.getElementById("overlay");
-        let fadeEffect = setInterval(function () {
-            if (!fadeTarget.style.opacity) {
-                fadeTarget.style.opacity = .8;
-            }
-            if (fadeTarget.style.opacity > 0) {
-                fadeTarget.style.opacity -= 0.1;
-            } else {
-                clearInterval(fadeEffect);
-            }
-        }, 200);
-      }
 
       hbs.registerHelper("round", function(mark) {
           return mark == '' ? mark : isNaN(mark) ? mark : Math.round(parseFloat(mark));
@@ -491,6 +478,7 @@
             });
             delete student.rawCourses;
           });
+          console.log(students);
           return students
           
       }
@@ -512,7 +500,7 @@
       
       $j(function() {
           async function getData() {
-              const studentPromise = await fetch(`/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
+              const studentPromise = fetch(`/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
                         method: 'POST',
                         credentials: 'same-origin',
                       headers: {
@@ -524,7 +512,7 @@
                       })
              });
 
-            const creditsPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
+            const creditsPromise = fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
                       method: 'POST',
                       credentials: 'same-origin',
                       headers: {
@@ -534,7 +522,7 @@
                       body: JSON.stringify({})
             });
             
-            const currentCoursesPromise = await fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=12000", {
+            const currentCoursesPromise = fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=12000", {
                       method: 'POST',
                       credentials: 'same-origin',
                       headers: {
@@ -553,8 +541,8 @@
               }
               return response.json();
             }))).then(data => {
-              const students = data[0].record;
-              const credits = data[1].record;
+              const students = data[0].record || [];
+              const credits = data[1].record || [];
               const currentCourses = data[2]?.record || [];
               
               const processedStudents = process(students, credits, currentCourses);
