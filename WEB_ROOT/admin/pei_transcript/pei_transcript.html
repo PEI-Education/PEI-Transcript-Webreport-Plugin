@@ -378,6 +378,12 @@
    <div id="output"></div>
    <script>
    
+      const hideLoader = () => {
+        const loader = document.querySelector('.loader');
+        loader.classList.add('loader-hidden');
+        const overlay = document.querySelector('#overlay');
+        overlay.remove();
+      }
 
       hbs.registerHelper("round", function(mark) {
           return mark == '' ? mark : isNaN(mark) ? mark : Math.round(parseFloat(mark));
@@ -547,8 +553,7 @@
               
               const processedStudents = process(students, credits, currentCourses);
               renderChunks(processedStudents, 25);
-              fadeOutEffect();
-              closeLoading();
+              hideLoader();
             }).catch(error => {
               console.error('Error fetching data:', error);
             });
