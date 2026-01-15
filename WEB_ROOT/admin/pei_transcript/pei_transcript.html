@@ -119,7 +119,7 @@
                         <td class="left">{{ lastday }}</td>
                         <td class="left">{{ course_number }}</td>
                         <td class="left">{{{ course_name }}}</td>
-                        <td class="center">{{round grade }}</td>
+                        <td class="center">{{ grade }}</td>
                         <td class="center">{{pad earnedcrhrs }}</td>
                     </tr>
                 {{/each }}
@@ -132,7 +132,7 @@
                             <td class="left">{{ lastday }}</td>
                             <td class="left">{{ course_number }}</td>
                             <td class="left">{{{ course_name }}}</td>
-                            <td class="center">{{round grade }}</td>
+                            <td class="center">{{ grade }}</td>
                             <td class="center">{{pad earnedcrhrs }}</td>
                         </tr>
                     {{/each }}
@@ -145,7 +145,7 @@
                         <td class="left">{{ lastday }}</td>
                         <td class="left">{{ course_number }}</td>
                         <td class="left">{{{ course_name }}}</td>
-                        <td class="center">{{round grade }}</td>
+                        <td class="center">{{ grade }}</td>
                         <td class="center">{{pad earnedcrhrs }}</td>
                     </tr>
                 {{/each }}
@@ -157,7 +157,7 @@
                         <td class="left">{{ lastday }}</td>
                         <td class="left">{{ course_number }}</td>
                         <td class="left">{{{ course_name }}}</td>
-                        <td class="center">{{round grade }}</td>
+                        <td class="center">{{ grade }}</td>
                         <td class="center">{{pad earnedcrhrs }}</td>
                     </tr>
                 {{/each }}
@@ -171,7 +171,7 @@
                             <td class="left">{{ course_number }}</td>
                             <td class="left">{{{ course_name }}}</td>
                             {{#if current_grade }}
-                              <td class="center">{{round current_grade }}</td>
+                              <td class="center">{{ current_grade }}</td>
                             {{else}}
                               <td class="center">-</td>
                             {{/if}}
