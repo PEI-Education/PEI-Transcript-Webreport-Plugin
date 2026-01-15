@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -466,7 +465,7 @@
               student.total_credits += parseFloat(course.earnedcrhrs);
               if (course.course_number.substr(0,3) == 'OPC') {
                 student.courses.opc.push(course);
-              } else if (course.subject === 'ESAP') {
+              } else if (course.credit_type === 'ESAP') {
                 if (course.course_number === 'EPS800J') {
                   if (student.esap_selection) {
                       //course.name += ` (${student.esapSelection.substr(9)})`;
@@ -475,6 +474,35 @@
                 }
                 student.courses.esap.push(course);
               } else if (parseInt(course.potentialcrhrs) === parseInt(course.earnedcrhrs)) {
+                switch(course.credit_type) {
+                  case 'EN': 
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_EN]';
+                    break;
+                  case 'FR':
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_FR]';
+                    break;
+                  case 'LA':
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_LA]';
+                    break;
+                  case 'MA': 
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_MA]';
+                    break;
+                  case 'OP':
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_OP]';
+                    break;
+                  case 'SC':
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SC]';
+                    break;
+                  case 'SS':
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_SS]';
+                    break;
+                  case 'ESAP':
+                    course.credit_type = 'ESAP';
+                    break;
+                  default:
+                    // If credit type is unrecognized, treat as attempted
+                    course.credit_type = '~[text:psx.htmlc.admin_pei_transcript.pei_transcript.type_ZZ]';
+                }
                 student.courses.completed.push(course)
               } else {
                 student.courses.attempted.push(course)
@@ -504,19 +532,19 @@
       
       $j(function() {
           async function getData() {
-              const studentPromise = fetch(`/ws/schema/query/ca.pei.reporting.transcript.get_demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                      headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify({
-                        "curschoolid": ~(curschoolid)
-                      })
-             });
+              const studentPromise = fetch(`/ws/schema/query/pei.education.reporting.transcript.demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        "curschoolid": ~(curschoolid)
+    })
+});
 
-            const creditsPromise = fetch("/ws/schema/query/ca.pei.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
+            const creditsPromise = fetch("/ws/schema/query/pei.education.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
                       method: 'POST',
                       credentials: 'same-origin',
                       headers: {
@@ -526,7 +554,7 @@
                       body: JSON.stringify({})
             });
             
-            const currentCoursesPromise = fetch("/ws/schema/query/ca.pei.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=12000", {
+            const currentCoursesPromise = fetch("/ws/schema/query/pei.education.reporting.transcript.current_courses?dofor=selection:selectedstudents&pagesize=12000", {
                       method: 'POST',
                       credentials: 'same-origin',
                       headers: {

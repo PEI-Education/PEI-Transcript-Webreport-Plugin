@@ -16,3 +16,4 @@ zips/
 .apdisk
 **/.DS_Store
 WEB_ROOT/admin/.DS_Store
+Context/*
