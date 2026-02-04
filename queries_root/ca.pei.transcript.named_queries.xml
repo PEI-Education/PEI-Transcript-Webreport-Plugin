@@ -143,9 +143,12 @@
 				join terms t
 					on t.id = sg.termid
 				  and t.schoolid = s.schoolid
+        join courses c
+          on c.course_number = sg.course_number
 				where 
           sg.storecode = 'F1'
           and nvl(sg.ExcludeFromTranscripts,0) = 0
+          and nvl(c.sched_do_not_print,0) = 0
           order by s.id ASC, sg.credit_type ASC, t.lastday ASC
 			]]>
 		</sql>

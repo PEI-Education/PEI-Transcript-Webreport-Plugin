@@ -16,6 +16,7 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 
 ## Release History
 
+* v2026.2.0 - Fixed issue where courses.sched_do_not_print was not being honours in the credits PQ
 * v2025.11.0 - Fixed display of current grades and fixed loader hiding lag
 * v2025.10.4 - Fixed issue where archived students were not displaying
 * v2025.10.3 - Migrated data request to PowerQuery

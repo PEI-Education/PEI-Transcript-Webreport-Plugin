@@ -67,11 +67,11 @@
                "htmlID": "navPSBKReportCard",
                "title": "PSB - K Report Card",
                "sortOrder": 300,
-               "pageURL": "/admin/pei_reportcards_v2/psb_k_rc_prefs.html",
+               "pageURL": "/admin/pei_reportcards_v3/psb_k_reportcard_prefs.html",
                "districtLevelContext": 0,
                "requiredContext": "student",
                "contextType": "main",
-               "version": "24.2.0.0",
+               "version": "26.2.0.0",
                "parentHTMLID": "navReportCardsTranscriptsSection"
             },
             {
@@ -89,22 +89,22 @@
                "htmlID": "navPSBIntReportCard",
                "title": "PSB - 7-9 Report Card",
                "sortOrder": 320,
-               "pageURL": "/admin/pei_reportcards_v2/psb_int_rc_prefs.html",
+               "pageURL": "/admin/pei_reportcards_v3/psb_int_reportcard_prefs.html",
                "districtLevelContext": 0,
                "requiredContext": "student",
                "contextType": "main",
-               "version": "24.2.0.0",
+               "version": "26.2.0.0",
                "parentHTMLID": "navReportCardsTranscriptsSection"
             },
             {
                "htmlID": "navPSBHSReportCard",
                "title": "PSB - High School Report Card",
                "sortOrder": 330,
-               "pageURL": "/admin/pei_reportcards_v2/psb_hs_rc_prefs.html",
+               "pageURL": "/admin/pei_reportcards_v3/psb_hs_reportcard_prefs.html",
                "districtLevelContext": 0,
                "requiredContext": "student",
                "contextType": "main",
-               "version": "24.2.0.0",
+               "version": "26.2.0.0",
                "parentHTMLID": "navReportCardsTranscriptsSection"
             }
           ]
