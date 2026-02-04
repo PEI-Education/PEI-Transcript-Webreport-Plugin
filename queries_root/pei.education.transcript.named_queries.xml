@@ -1,0 +1,226 @@
+<queries>
+  <query name="pei.education.reporting.transcript.demographic_data" coreTable="students" flattened="true" tags="transcript">
+    <summary>PEI Transcript: Student Details</summary>
+    <description>Retrieves all data necessary to generate a PEI student transcript.</description>
+    <args>
+      <arg name="curschoolid" column="students.schoolid" required="true" description="ID of the current school" default="~(curschoolid)"/>
+    </args>
+    <columns>
+			<column column="students.last_name">Demographics.Legal_Last_Name</column>
+			<column column="students.first_name">Demographics.Legal_First_Name</column>
+			<column column="students.middle_name">Demographics.Legal_Middle_Name</column>
+      <column column="students.id">Demographics.Student_DCID</column>
+			<column column="students.first_name">Demographics.First_Name</column>
+			<column column="students.middle_name">Demographics.Middle_Name</column>
+			<column column="students.last_name">Demographics.Last_Name</column>
+			<column column="students.first_name">Demographics.Date_Of_Birth</column>
+			<column column="students.id">Demographics.Student_ID</column>
+			<column column="students.student_number">Demographics.Student_Number</column>
+      <column column="students.home_room">Demographics.Homeroom</column> 
+			<column column="students.schoolid">Demographics.School_ID</column>
+			<column column="schools.name">Demographics.School_Name</column>
+			<column column="schools.schooladdress">Demographics.School_Address</column>
+			<column column="schools.schoolcity">Demographics.School_City</column>
+			<column column="schools.schoolstate">Demographics.School_State</column>
+			<column column="schools.schoolzip">Demographics.School_Zip_Code</column>
+			<column column="schools.schoolphone">Demographics.School_Phone_Number</column>
+			<column column="schools.name">Demographics.School_Website</column>
+			<column column="students.first_name">Demographics.GradY</column>
+      <column column="students.first_name">Demographics.GradN</column>
+			<column column="students.first_name">Demographics.Grad_Date</column>
+			<column column="students.id">Demographics.ADP</column>
+			<column column="students.first_name">Demographics.French_Certificate</column>
+			<column column="students.first_name">Demographics.IB</column>
+      <column column="gen.name">Demographics.ESAP</column>
+      <column column="codeset.displayvalue">Demographics.ESAP_Selection</column>
+		</columns>
+
+    <sql><![CDATA[
+      select
+          scf.pscore_legal_last_name legal_last_name,
+          scf.pscore_legal_first_name legal_first_name,
+          scf.pscore_legal_middle_name legal_middle_name,
+          students.dcid dcid,
+          students.first_name first_name,
+          students.middle_name middle_name,
+          students.last_name last_name,
+          to_char(students.dob, 'MM/DD/YYYY') dob,
+          students.id id,
+          students.student_number student_number,
+          students.home_room homeroom,
+
+          coalesce(ses.schoolid, sed.schoolid) schoolid,
+          sch.name schname,
+          sch.schooladdress schaddress,
+          sch.schoolcity schcity,
+          sch.schoolstate schstate,
+          sch.schoolzip schzip,
+          sch.schoolphone schphone,
+          
+          schdyn.schoolurl schurl,
+          
+          case when substr(stuext.pei_hasgraduated, 0,1) = 'Y' then 1 else null end as gradY,
+          case when substr(stuext.pei_hasgraduated, 0,1) <> 'Y' or stuext.pei_graduationdate is null then 1 else null end as gradN,
+          to_char(stuext.pei_graduationdate, 'MM/DD/YYYY') pei_graduationdate,
+          stuext.pei_adpcertificate adp,
+          stuext.pei_frenchcertificate french_certificate,
+          stuext.pei_ib ib,
+          (select distinct
+            case when gen.name = 'Essential Skills Achievement Pathway' then 1 else null end
+          from SPEnrollments esap
+          join gen
+            on gen.id = esap.programid
+          where
+            gen.name = 'Essential Skills Achievement Pathway'
+            and esap.studentid = students.id
+          and (esap.exit_date >= SYSDATE OR esap.exitcode = 'GRAD')
+          ) as esap,
+          nvl(code.displayvalue, 'None') esap_selection
+          
+      from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+      join students students
+          on students.dcid = sel.dcid
+      join studentcorefields scf
+          on scf.studentsdcid = students.dcid
+      left join (select studentid, schoolid, row_number() over (partition by studentid order by yearid desc) as rn from ps_schoolenrollment where schoolid < 700) sed 
+          on sed.studentid = students.id
+          and sed.rn = 1
+          and :curschoolid = 0
+      left join (select studentid, schoolid, row_number() over (partition by studentid order by yearid desc) as rn from ps_schoolenrollment where schoolid = :curschoolid) ses
+          on ses.studentid = students.id
+          and ses.rn = 1
+          and :curschoolid <> 0
+      join schools sch
+            on sch.school_number = coalesce(ses.schoolid, sed.schoolid)
+     join u_def_ext_schools schdyn
+            on schdyn.schoolsdcid = sch.dcid
+      join u_def_ext_students stuext
+            on stuext.studentsdcid = students.dcid
+      left join codeset code
+        on code.code = stuext.pei_esap
+      where 1 = coalesce(sed.rn, ses.rn)
+      order by students.lastfirst
+    ]]></sql>
+  </query>
+
+  <query name="pei.education.reporting.transcript.historical_grades" coreTable="students" flattened="true" tags="transcript">
+    <summary>PEI Transcript: Historical Student Grades</summary>
+		<description>Transcript data export - student grades</description>
+
+		<columns>
+			<column column="students.id">Credits.Student_ID</column>
+      <column column="students.student_number">Credits.Student_Number</column> 
+      <column column="students.lastfirst">Credits.Student_Name</column>
+      <column column="storedgrades.course_name">Credits.LastDay</column>
+			<column column="storedgrades.credit_type">Credits.Credit_Type</column>
+			<column column="storedgrades.Course_Number">Credits.Course_Number</column>
+			<column column="storedgrades.Course_Name">Credits.Course_Name</column>
+			<column column="storedgrades.earnedcrhrs">Credits.EarnedCrHrs</column>
+			<column column="storedgrades.potentialcrhrs">Credits.PotentialCrHrs</column>
+			<column column="storedgrades.grade">Credits.Grade</column>
+		</columns>
+
+		<sql>
+			<![CDATA[
+        select
+          s.id id,
+          s.student_number student_number,
+          s.lastfirst lastfirst,
+          to_char(t.lastday,'yyyy/mm') as lastday,
+          case sg.credit_type 
+            when 'EN' then 'EN'
+            when 'FR' then 'FR'
+            when 'LA' then 'LA'
+            when 'MA' then 'MA'
+            when 'OP' then 'OP'
+            when 'SC' then 'SC'
+            when 'SH' then 'SS'
+            when 'SS' then 'SS'
+            when 'ESAP' then 'ESAP'
+            else 'ZZ'
+          end as credit_type,
+					coalesce(sg.course_number, 'MISSING') course_number,
+					sg.course_name course_name,
+					sg.earnedcrhrs earnedcrhrs,
+					sg.potentialcrhrs potentialcrhrs,
+					sg.grade grade
+        from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+        join students s
+					on s.dcid = sel.dcid
+        join storedgrades sg
+          on sg.studentid = s.id
+        join terms t
+          on t.id = sg.termid
+          and t.schoolid = sg.schoolid
+        left join courses c
+          on c.course_number = sg.course_number
+        where 
+          sg.storecode = 'F1'
+          and nvl(c.sched_do_not_print,0) = 0
+          and nvl(sg.ExcludeFromTranscripts,0) = 0
+          order by s.id ASC, sg.credit_type ASC, t.lastday ASC
+			]]>
+		</sql>
+	</query>
+
+	<query name="pei.education.reporting.transcript.current_courses" coreTable="students" flattened="true" tags="transcript">
+    <summary>PEI Transcript: Current Student Courses</summary>
+		<description>Transcript data export - current courses. Specify yearid and storecode (Q1, Q2 or Q3) that grades should be returned for, if required.</description>
+
+    <args>
+      <arg name="curyearid" required="true" column="terms.yearid" description="Current school year" />
+      <arg name="storecode" required="false" column="storedgrades.storecode" description="Store code for current grades" />
+    </args>
+
+		<columns>
+			<column column="students.id">CurrentCourses.Student_ID</column>
+      <column column="students.student_number">CurrentCourses.Student_Number</column>
+      <column column="students.lastfirst">CurrentCourses.Student_Name</column>
+      <column column="cc.course_number">CurrentCourses.Status</column>
+			<column column="cc.course_number">CurrentCourses.Course_Number</column>
+			<column column="courses.course_name">CurrentCourses.Course_Name</column>
+			<column column="storedgrades.grade">CurrentCourses.Current_Grade</column>
+		</columns>
+
+		<sql>
+			<![CDATA[
+        select
+          s.id student_id,
+          s.student_number student_number,
+          s.lastfirst lastfirst,
+          case
+            when regs.DATEENROLLED <= SYSDATE then 'In Progress'
+            when regs.DATEENROLLED > SYSDATE then 'Next Semester'
+          end as status,
+          regs.course_number course_number,
+          c.course_name course_name,
+          nvl(cg.grade,'-') as current_grade
+        from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
+        join students s
+          on s.dcid = sel.dcid
+        join cc regs
+          on regs.studentid = s.id
+        join courses c
+          on c.course_number = regs.course_number
+        left join (select 
+          sg.studentid studentid,
+          sg.sectionid sectionid,
+          sg.course_number course_number, 
+          sg.grade grade, 
+          nvl(sg.excludefromtranscripts,0) excludeCourse 
+        from storedgrades sg 
+        where 1=1
+        and substr(sg.termid,1,2) = :curyearid
+        and sg.storecode = :storecode) cg
+          on s.id = cg.studentid
+          and regs.sectionid = cg.sectionid
+        where
+          substr(regs.termid,1,2) = :curyearid
+          and nvl(c.sched_do_not_print,0) = 0
+          and nvl(cg.excludeCourse,0) = 0
+          and regs.DATELEFT >= SYSDATE
+        order by s.id, regs.DATEENROLLED, c.course_number
+			]]>
+		</sql>
+	</query>
+</queries>

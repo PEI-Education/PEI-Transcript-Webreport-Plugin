@@ -15,4 +15,5 @@ zips/
 .AppleDesktop
 .apdisk
 **/.DS_Store
+Context/*
 WEB_ROOT/admin/.DS_Store
