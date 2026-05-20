@@ -8,9 +8,9 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 
 ## Constraints / Requirements
 
-* ~~~Report must be run at the school level~~~ User can run transcript report at the school level or at the District Office.
-  * At the District Office, user can print transcripts from any combination of schools. *
-  *  School that appears on transcript will be the last public school the student attended.
+* ~~Report must be run at the school level~~ User can run transcript report at the school level or at the District Office.
+  * At the District Office, user can print transcripts from any combination of schools.
+  * School that appears on transcript will be the last public school the student attended.
 * User must have a current student selection.
 * The report will return results for a maximum of 1500 students at a time
 * Browser/available RAM may limit the number of transcripts that can be printed/saved to PDF (e.g. transcripts will load in browser, but browser may crash when trying to render for printing. 500 is recommended max batch size).
