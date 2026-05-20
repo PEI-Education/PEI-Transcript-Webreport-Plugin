@@ -18,6 +18,7 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 
 ## Release History
 
+* v2026.5.1 - Updated PQs to round grades (historical and current) and removed rounding helper from Handlebars. Also updated Handlebars to resolve critical security issue.
 * v2026.2.0 - Fixed issue where courses.sched_do_not_print was not being honours in the credits PQ
 * V2026.1.5 - Reworked PowerQueries to be accessible from the Data Export Manager.
 * v2026.1.1 - Added ability to print from district. Student school will display as their most recent public high school.
