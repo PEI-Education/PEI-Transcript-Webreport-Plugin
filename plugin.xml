@@ -8,4 +8,9 @@
   <publisher name="Department of Education and Lifelong Learning - Luke Walker">
     <contact email="lawalker@gov.pe.ca"/>
   </publisher>
-</plugin> 
+  <access_request>
+    <cdn_request>
+        <cdn name="https://www.jsdelivr.com"/>
+    </cdn_request>
+  </access_request>
+</plugin>
