@@ -143,9 +143,10 @@
 					sg.course_name course_name,
 					sg.earnedcrhrs earnedcrhrs,
 					sg.potentialcrhrs potentialcrhrs,
-          case 
-            when regexp_like(sg.grade, '^-?[0-9]+(\.[0-9]+)?$') then to_char(round(to_number(sg.grade)))
-            else sg.grade
+					case
+            when regexp_like(trim(sg.grade), '^[+-]?\d+(\.\d+)?$')
+              then to_char(round(to_number(trim(sg.grade)), 0))
+            else trim(sg.grade)
           end as grade
         from (select dcid from students where <@restricted_table table="students" selector="selectedstudents"/>) sel
         join students s
@@ -155,8 +156,11 @@
         join terms t
           on t.id = sg.termid
           and t.schoolid = sg.schoolid
+        left join courses c
+          on c.course_number = sg.course_number
         where 
           sg.storecode = 'F1'
+          and nvl(c.sched_do_not_print,0) = 0
           and nvl(sg.ExcludeFromTranscripts,0) = 0
           order by s.id ASC, sg.credit_type ASC, t.lastday ASC
 			]]>
@@ -206,9 +210,10 @@
           sg.studentid studentid,
           sg.sectionid sectionid,
           sg.course_number course_number, 
-          case 
-            when regexp_like(sg.grade, '^-?[0-9]+(\.[0-9]+)?$') then to_char(round(to_number(sg.grade)))
-            else nvl(sg.grade, '-')
+          case
+            when regexp_like(trim(sg.grade), '^[+-]?\d+(\.\d+)?$')
+              then to_char(round(to_number(trim(sg.grade)), 0))
+            else trim(sg.grade)
           end as grade, 
           nvl(sg.excludefromtranscripts,0) excludeCourse 
         from storedgrades sg 

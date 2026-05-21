@@ -8,9 +8,9 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 
 ## Constraints / Requirements
 
-* ~~~Report must be run at the school level~~~ User can run transcript report at the school level or at the District Office.
-  * At the District Office, user can print transcripts from any combination of schools. *
-  *  School that appears on transcript will be the last public school the student attended.
+* ~~Report must be run at the school level~~ User can run transcript report at the school level or at the District Office.
+  * At the District Office, user can print transcripts from any combination of schools.
+  * School that appears on transcript will be the last public school the student attended.
 * User must have a current student selection.
 * The report will return results for a maximum of 1500 students at a time
 * Browser/available RAM may limit the number of transcripts that can be printed/saved to PDF (e.g. transcripts will load in browser, but browser may crash when trying to render for printing. 500 is recommended max batch size).
@@ -18,6 +18,8 @@ Make a selection of students and select *PEI Student Transcript* (under *PEI Rep
 
 ## Release History
 
+* v2026.5.1 - Updated PQs to round grades (historical and current) and removed rounding helper from Handlebars. Also updated Handlebars to resolve critical security issue.
+* v2026.2.0 - Fixed issue where courses.sched_do_not_print was not being honours in the credits PQ
 * V2026.1.5 - Reworked PowerQueries to be accessible from the Data Export Manager.
 * v2026.1.1 - Added ability to print from district. Student school will display as their most recent public high school.
 * v2025.11.0 - Fixed display of current grades and fixed loader hiding lag

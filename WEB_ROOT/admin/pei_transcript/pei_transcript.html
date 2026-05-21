@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>~[text:psx.htmlc.admin_pei_transcript.pei_transcript.pei_student_transcript]</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.9/dist/cjs/handlebars.min.js"></script>
   <script>
       const hbs = Handlebars.noConflict();
   </script>
@@ -383,10 +383,6 @@
         const overlay = document.querySelector('#overlay');
         overlay.remove();
       }
-
-      hbs.registerHelper("round", function(mark) {
-          return mark == '' ? mark : isNaN(mark) ? mark : Math.round(parseFloat(mark));
-      });
       
       hbs.registerHelper("pad", function(credit) {
           if (isNaN(credit)) {
@@ -532,17 +528,17 @@
       
       $j(function() {
           async function getData() {
-              const studentPromise = fetch(`/ws/schema/query/pei.education.reporting.transcript.demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        "curschoolid": ~(curschoolid)
-    })
-});
+            const studentPromise = fetch(`/ws/schema/query/pei.education.reporting.transcript.demographic_data?dofor=selection:selectedstudents&pagesize=1500&order=${encodeURIComponent(reportconfig.order)}`, {
+              method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "curschoolid": ~(curschoolid)
+                })
+            });
 
             const creditsPromise = fetch("/ws/schema/query/pei.education.reporting.transcript.historical_grades?dofor=selection:selectedstudents&pagesize=36000", {
                       method: 'POST',

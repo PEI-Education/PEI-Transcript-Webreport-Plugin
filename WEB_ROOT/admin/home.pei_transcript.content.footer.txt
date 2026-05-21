@@ -17,7 +17,7 @@
                 },
                 {
                     name: 'PSB - K Report Card',
-                    address: '/admin/pei_reportcards_v2/psb_k_rc_prefs.html',
+                    address: '/admin/pei_reportcards_v3/psb_k_reportcard_prefs.html',
                     htmlid: 'psb_k_report_card'
                 },                
                 {
@@ -27,12 +27,12 @@
                 },
                 {
                     name: 'PSB - 7-9 Report Card',
-                    address: '/admin/pei_reportcards_v2/psb_int_rc_prefs.html',
+                    address: '/admin/pei_reportcards_v3/psb_int_reportcard_prefs.html',
                     htmlid: 'psb_7-9_report_card'
                 },                
                 {
                     name: 'PSB - High School Report Card',
-                    address: '/admin/pei_reportcards_v2/psb_hs_rc_prefs.html',
+                    address: '/admin/pei_reportcards_v3/psb_hs_reportcard_prefs.html',
                     htmlid: 'psb_hs_report_card'
                 },
                 {
